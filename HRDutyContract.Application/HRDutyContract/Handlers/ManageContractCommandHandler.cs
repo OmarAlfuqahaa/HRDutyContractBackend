@@ -3,10 +3,6 @@ using HRDutyContract.Application.Common.Interfaces;
 using HRDutyContract.Application.Common.ViewModels;
 using HRDutyContract.Domain.Entities;
 using AutoMapper;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using HRDutyContract.Application.HRDutyContract.Commands;
 using HRDutyContract.Application.Common.Services;
 

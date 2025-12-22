@@ -5,11 +5,6 @@ using HRDutyContract.Application.HRDutyContract.Queries;
 using HRDutyContract.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace HRDutyContract.Application.HRDutyContract.Handlers
 {
@@ -33,24 +28,26 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
         {
             var response = new GCLQ_Response();
 
-            Expression<Func<HRContract, bool>> searchFilter = x => true;
-            Expression<Func<HRContract, bool>> isActiveFilter = x => true;
+            var query = _context.HRContracts.AsQueryable();
 
-            if (!string.IsNullOrEmpty(request.SearchTerm))
+            if (request.Filters != null && request.Filters.Any())
             {
-                var term = request.SearchTerm;
-                searchFilter = x => x.ContractName.Contains(term);
+                foreach (var filter in request.Filters)
+                {
+                    switch (filter.Field.ToLower())
+                    {
+                        case "contractname":
+                            query = query.Where(x => x.ContractName.Contains(filter.Value));
+                            break;
+                        case "isactive":
+                            if (bool.TryParse(filter.Value, out var isActive))
+                                query = query.Where(x => x.IsActive == isActive);
+                            break;
+                    }
+                }
             }
 
-            if (request.IsActive.HasValue)
-            {
-                isActiveFilter = x => x.IsActive == request.IsActive.Value;
-            }
-
-            var query = _context.HRContracts
-                .Where(searchFilter)
-                .Where(isActiveFilter)
-                .OrderBy(c => c.ContractID);
+            query = query.OrderBy(c => c.ContractID);
 
             response.RowsCount = await query.CountAsync(cancellationToken);
 
@@ -60,8 +57,8 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                     _mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
+
             return response;
         }
-
     }
 }

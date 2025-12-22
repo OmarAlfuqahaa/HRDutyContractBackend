@@ -1,11 +1,3 @@
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.csproj.AssemblyReference.cache
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.AssemblyInfoInputs.cache
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.AssemblyInfo.cs
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.csproj.CoreCompileInputs.cache
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.sourcelink.json
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\bin\Debug\net8.0\appsettings.json
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\bin\Debug\net8.0\HRDutyContractBackend.exe
@@ -137,6 +129,14 @@ C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\bin\Deb
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\bin\Debug\net8.0\HRDutyContract.Application.pdb
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\bin\Debug\net8.0\HRDutyContract.DataAccess.pdb
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\bin\Debug\net8.0\HRDutyContract.Domain.pdb
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.csproj.AssemblyReference.cache
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.AssemblyInfoInputs.cache
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.AssemblyInfo.cs
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\HRDutyContractBackend.sourcelink.json
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContractBackend\obj\Debug\net8.0\staticwebassets\msbuild.HRDutyContractBackend.Microsoft.AspNetCore.StaticWebAssets.props

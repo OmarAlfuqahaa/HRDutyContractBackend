@@ -1,9 +1,3 @@
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.csproj.AssemblyReference.cache
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.AssemblyInfoInputs.cache
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.AssemblyInfo.cs
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.csproj.CoreCompileInputs.cache
-C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.sourcelink.json
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\bin\Debug\net8.0\HRDutyContract.DataAccess.deps.json
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\bin\Debug\net8.0\HRDutyContract.DataAccess.runtimeconfig.json
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\bin\Debug\net8.0\HRDutyContract.DataAccess.dll
@@ -12,6 +6,12 @@ C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\bin
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\bin\Debug\net8.0\HRDutyContract.Domain.dll
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\bin\Debug\net8.0\HRDutyContract.Application.pdb
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\bin\Debug\net8.0\HRDutyContract.Domain.pdb
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.csproj.AssemblyReference.cache
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.AssemblyInfoInputs.cache
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.AssemblyInfo.cs
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.sourcelink.json
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyCo.EBDD1E50.Up2Date
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\HRDutyContract.DataAccess.dll
 C:\Users\Lenovo\source\repos\HRDutyContractBackend\HRDutyContract.DataAccess\obj\Debug\net8.0\refint\HRDutyContract.DataAccess.dll

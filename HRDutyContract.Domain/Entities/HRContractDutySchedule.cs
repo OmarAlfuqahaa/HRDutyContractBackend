@@ -20,12 +20,12 @@ namespace HRDutyContract.Domain.Entities
         public TimeSpan? ToTime { get; set; }
         public TimeSpan? ShiftTotalHours { get; set; }
 
-        public float? Multiplier { get; set; }
-        public float? InCall_Multiplier { get; set; }
-        public float? OnCall_Multiplier { get; set; }
+        public double? Multiplier { get; set; }
+        public double? InCall_Multiplier { get; set; }
+        public double? OnCall_Multiplier { get; set; }
 
-        public float? Amount { get; set; }
-        public float? BaseLine { get; set; }
+        public double? Amount { get; set; }
+        public double? BaseLine { get; set; }
 
         public int? AllowanceTypeID { get; set; }
         public int? AllowanceTypeID2 { get; set; }
@@ -33,11 +33,11 @@ namespace HRDutyContract.Domain.Entities
         public bool? IsWithSalaryCalculate { get; set; }
         public int? ShiftBehaviorID { get; set; }
 
-        public float? MonthlyMaxShifts { get; set; }
+        public double? MonthlyMaxShifts { get; set; }
 
-        public float? HolidayMultiplier { get; set; }
-        public float? HolidayInCall_Multiplier { get; set; }
-        public float? HolidayOnCall_Multiplier { get; set; }
+        public double? HolidayMultiplier { get; set; }
+        public double? HolidayInCall_Multiplier { get; set; }
+        public double? HolidayOnCall_Multiplier { get; set; }
 
         public bool? IsActive { get; set; }
 

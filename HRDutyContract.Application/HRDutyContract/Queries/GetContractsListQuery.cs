@@ -4,11 +4,16 @@ namespace HRDutyContract.Application.HRDutyContract.Queries
 {
     public class GetContractsListQuery : IRequest<GCLQ_Response>
     {
-        public string? SearchTerm { get; set; }   
-        public int PageNumber { get; set; } = 1;  
+        public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
-        public bool? IsActive { get; set; }
 
+        public List<FilterItem>? Filters { get; set; }
+    }
+
+    public class FilterItem
+    {
+        public string Field { get; set; } = string.Empty; 
+        public string Value { get; set; } = string.Empty; 
     }
 
     public class GCLQ_HRContract
@@ -16,7 +21,7 @@ namespace HRDutyContract.Application.HRDutyContract.Queries
         public int ContractID { get; set; }
         public string? ContractName { get; set; }
         public bool IsActive { get; set; }
-        public string? Date { get; set; }
+        public string? ExpirationDate { get; set; }
     }
 
     public class GCLQ_Response

@@ -10,7 +10,7 @@ namespace HRDutyContract.Application.Common.Mappings
         {
             CreateMap<HRContract, GCLQ_HRContract>()
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.IsActive ?? false))
-                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.RecordDateEntry.HasValue
+                .ForMember(dest => dest.ExpirationDate, opt => opt.MapFrom(src => src.RecordDateEntry.HasValue
                     ? src.RecordDateEntry.Value.ToString("yyyy-MM-dd")
                     : null));
 
