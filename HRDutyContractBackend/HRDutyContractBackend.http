@@ -1,0 +1,6 @@
+@HRDutyContractBackend_HostAddress = http://localhost:5285
+
+GET {{HRDutyContractBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
