@@ -8,11 +8,16 @@ namespace HRDutyContract.Application.Common.Mappings
     {
         public HRContractProfile()
         {
+            CreateMap<HRContract, GCD_Response>()
+            .ForMember(dest => dest.IsActive,
+                opt => opt.MapFrom(src => src.IsActive ?? false));
+
             CreateMap<HRContract, GCLQ_HRContract>()
-                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.IsActive ?? false))
-                .ForMember(dest => dest.ExpirationDate, opt => opt.MapFrom(src => src.RecordDateEntry.HasValue
-                    ? src.RecordDateEntry.Value.ToString("yyyy-MM-dd")
-                    : null));
+                .ForMember(dest => dest.IsActive,
+                    opt => opt.MapFrom(src => src.IsActive ?? false));
+
+            CreateMap<HRContractDutySchedule, HRCDS_Response>();
+
 
         }
     }

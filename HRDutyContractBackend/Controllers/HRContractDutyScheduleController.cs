@@ -1,7 +1,11 @@
-﻿using HRDutyContract.DataAccess;
+﻿
+using HRDutyContract.DataAccess;
 using HRDutyContract.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using HRDutyContract.Application.HRDutyContract.Queries;
+using HRDutyContract.Application.HRDutyContract.Commands;
 
 namespace HRDutyContractBackend.Controllers
 {
@@ -9,84 +13,35 @@ namespace HRDutyContractBackend.Controllers
     [Route("api/[controller]")]
     public class HRContractDutyScheduleController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMediator _mediator;
+        public HRContractDutyScheduleController(IMediator mediator) => _mediator = mediator;
 
-        public HRContractDutyScheduleController(ApplicationDbContext context)
+        [HttpGet("List")]
+        public async Task<IActionResult> GetList(
+            [FromQuery] int? contractId,
+            [FromQuery] bool? isActive,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
-            _context = context;
+            var query = new GetHRContractDutyScheduleListQuery
+            {
+                ContractID = contractId,
+                IsActive = isActive,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
-        // POST: api/HRContractDutySchedule/Create
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] HRContractDutySchedule schedule)
+
+        [HttpPost("Manage")]
+        public async Task<IActionResult> Manage([FromBody] ManageHRContractDutyScheduleCommand command)
         {
-            if (schedule == null)
-                return BadRequest("Schedule data is required.");
-
-            schedule.IsActive ??= true;
-            schedule.RecordDateEntry = DateTime.Now;
-
-            _context.HRContractDutySchedules.Add(schedule);
-            await _context.SaveChangesAsync();
-
-            return Ok(schedule);
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
 
-        // POST: api/HRContractDutySchedule/Update
-        [HttpPost("Update")]
-        public async Task<IActionResult> Update([FromBody] HRContractDutySchedule schedule)
-        {
-            if (schedule == null || schedule.DetailsID == 0)
-                return BadRequest("Valid schedule data is required.");
-
-            var existing = await _context.HRContractDutySchedules
-                                         .FindAsync(schedule.DetailsID);
-
-            if (existing == null)
-                return NotFound("Schedule not found.");
-
-            existing.ContractID = schedule.ContractID;
-            existing.CompanyID = schedule.CompanyID;
-            existing.ShiftTypeID = schedule.ShiftTypeID;
-            existing.FromTime = schedule.FromTime;
-            existing.ToTime = schedule.ToTime;
-            existing.ShiftTotalHours = schedule.ShiftTotalHours;
-            existing.Multiplier = schedule.Multiplier;
-            existing.InCall_Multiplier = schedule.InCall_Multiplier;
-            existing.OnCall_Multiplier = schedule.OnCall_Multiplier;
-            existing.Amount = schedule.Amount;
-            existing.BaseLine = schedule.BaseLine;
-            existing.AllowanceTypeID = schedule.AllowanceTypeID;
-            existing.AllowanceTypeID2 = schedule.AllowanceTypeID2;
-            existing.IsWithSalaryCalculate = schedule.IsWithSalaryCalculate;
-            existing.ShiftBehaviorID = schedule.ShiftBehaviorID;
-            existing.MonthlyMaxShifts = schedule.MonthlyMaxShifts;
-            existing.HolidayMultiplier = schedule.HolidayMultiplier;
-            existing.HolidayInCall_Multiplier = schedule.HolidayInCall_Multiplier;
-            existing.HolidayOnCall_Multiplier = schedule.HolidayOnCall_Multiplier;
-            existing.IsActive = schedule.IsActive;
-            existing.RecordUpdateBy = schedule.RecordUpdateBy;
-            existing.RecordNote = schedule.RecordNote;
-            existing.Note = schedule.Note;
-
-            await _context.SaveChangesAsync();
-            return Ok(existing);
-        }
-
-        // POST: api/HRContractDutySchedule/Delete
-        [HttpPost("Delete")]
-        public async Task<IActionResult> Delete([FromBody] int id)
-        {
-            var existing = await _context.HRContractDutySchedules.FindAsync(id);
-            if (existing == null)
-                return NotFound("Schedule not found.");
-
-            // Soft delete
-            existing.RecordDeleted = true;
-            existing.IsActive = false;
-
-            await _context.SaveChangesAsync();
-            return Ok("Schedule soft-deleted successfully.");
-        }
     }
 }

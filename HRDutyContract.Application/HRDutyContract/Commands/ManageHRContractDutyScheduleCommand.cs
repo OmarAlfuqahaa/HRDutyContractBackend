@@ -4,9 +4,9 @@ using MediatR;
 
 namespace HRDutyContract.Application.HRDutyContract.Commands
 {
-    public class ManageContractCommand : IRequest<AbstractViewModel>
+    public class ManageHRContractDutyScheduleCommand : IRequest<AbstractViewModel>
     {
-        public HRContract Contract { get; set; }
+        public HRContractDutySchedule Schedule { get; set; }
         public bool IsDelete { get; set; } = false; 
     }
 }
