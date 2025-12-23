@@ -77,11 +77,22 @@ namespace HRDutyContractBackend.Controllers
 
 
 
-        // GET: api/HRContract/Details/
-        [HttpGet("Details/{contractID}")]
-        public async Task<IActionResult> GetContractDetails(int contractID)
+        /*  // GET: api/HRContract/Details/
+          [HttpGet("Details/{contractID}")]
+          public async Task<IActionResult> GetContractDetails(int contractID)
+          {
+              var contract = await _mediator.Send(new GetContractDetailsByIdQuery { ContractID = contractID });
+
+              if (contract == null)
+                  return NotFound("Contract not found");
+
+              return Ok(contract);
+          }*/
+
+        [HttpGet("Details")]
+        public async Task<IActionResult> GetContractDetails([FromQuery] GetContractDetailsByIdQuery Query) 
         {
-            var contract = await _mediator.Send(new GetContractDetailsByIdQuery { ContractID = contractID });
+            var contract = await _mediator.Send(Query);
 
             if (contract == null)
                 return NotFound("Contract not found");
@@ -89,9 +100,6 @@ namespace HRDutyContractBackend.Controllers
             return Ok(contract);
         }
 
-
-
     }
-
 
 }

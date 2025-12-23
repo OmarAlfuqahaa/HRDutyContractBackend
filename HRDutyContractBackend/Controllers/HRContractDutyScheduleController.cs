@@ -37,11 +37,14 @@ namespace HRDutyContractBackend.Controllers
 
 
         [HttpPost("Manage")]
-        public async Task<IActionResult> Manage([FromBody] ManageHRContractDutyScheduleCommand command)
+        public async Task<IActionResult> Manage(
+            [FromBody] ManageHRContractDutyScheduleCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
         }
+
+
 
     }
 }

@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using HRDutyContract.Domain.Entities;
 using HRDutyContract.Application.Common.Interfaces;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace HRDutyContract.DataAccess
 {

@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using HRDutyContract.Application.Common.ViewModels;
 using HRDutyContract.Application.Common.Services;
 
-
 namespace HRDutyContract.Application.HRDutyContract.Handlers
 {
     public class ManageHRContractDutyScheduleCommandHandler : IRequestHandler<ManageHRContractDutyScheduleCommand, AbstractViewModel>
@@ -21,63 +20,75 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
         public async Task<AbstractViewModel> Handle(ManageHRContractDutyScheduleCommand request, CancellationToken cancellationToken)
         {
             var vm = new AbstractViewModel();
-            var entity = request.Schedule ?? throw new ArgumentNullException(nameof(request.Schedule));
 
-            // DELETE 
+            // DELETE
             if (request.IsDelete)
             {
-                if (entity.DetailsID == 0)
+                if (request.DetailsID <= 0)
                 {
-                    vm.lstError.Add("Cannot delete a record with DetailsID = 0.");
+                    vm.lstError.Add("Cannot delete a record with invalid DetailsID.");
                     return vm;
                 }
 
-                var existing = await _context.HRContractDutySchedules
-                    .FirstOrDefaultAsync(x => x.DetailsID == entity.DetailsID, cancellationToken);
+                var existingDelete = await _context.HRContractDutySchedules
+                    .FirstOrDefaultAsync(x => x.DetailsID == request.DetailsID, cancellationToken);
 
-                if (existing == null)
+                if (existingDelete == null)
                 {
-                    vm.lstError.Add($"Record with DetailsID = {entity.DetailsID} does not exist!");
+                    vm.lstError.Add($"Record with DetailsID = {request.DetailsID} does not exist.");
                     return vm;
                 }
 
-                existing.RecordDeleted = true;
-                existing.IsActive = false;
+                existingDelete.RecordDeleted = true;
+                existingDelete.IsActive = false;
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                vm.EntityId = existing.DetailsID;
+                vm.EntityId = existingDelete.DetailsID;
                 vm.status = true;
                 return vm;
             }
 
-            // CREATE 
-            if (entity.DetailsID == 0)
+            // CREATE
+            if (request.DetailsID == 0)
             {
-                entity.RecordDateEntry = DateTime.Now;
-                entity.IsActive ??= true;
-                entity.RecordDeleted = false;
+                var newEntity = new HRContractDutySchedule
+                {
+                    ContractID = request.ContractID,
+                    ShiftTypeID = request.ShiftTypeID,
+                    FromTime = request.FromTime,
+                    ToTime = request.ToTime,
+                    Note = request.Note,
+                    IsActive = request.IsActive ?? true,
+                    RecordDeleted = false,
+                    RecordDateEntry = DateTime.Now
+                };
 
-                _context.HRContractDutySchedules.Add(entity);
+                _context.HRContractDutySchedules.Add(newEntity);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                vm.EntityId = entity.DetailsID; 
+                vm.EntityId = newEntity.DetailsID;
                 vm.status = true;
                 return vm;
             }
 
-            // UPDATE 
+            // UPDATE
             var existingUpdate = await _context.HRContractDutySchedules
-                .FirstOrDefaultAsync(x => x.DetailsID == entity.DetailsID, cancellationToken);
+                .FirstOrDefaultAsync(x => x.DetailsID == request.DetailsID, cancellationToken);
 
             if (existingUpdate == null)
             {
-                vm.lstError.Add($"Record with DetailsID = {entity.DetailsID} does not exist, cannot update.");
+                vm.lstError.Add($"Record with DetailsID = {request.DetailsID} does not exist, cannot update.");
                 return vm;
             }
 
-            var updater = new UpdaterManager<HRContractDutySchedule>();
-            updater.getUpdatedEntityBasedNewEntityWithNullsUpdate(existingUpdate, entity, typeof(ManageHRContractDutyScheduleCommand));
+            existingUpdate.ContractID = request.ContractID != 0 ? request.ContractID : existingUpdate.ContractID;
+            existingUpdate.ShiftTypeID = request.ShiftTypeID != 0 ? request.ShiftTypeID : existingUpdate.ShiftTypeID;
+            existingUpdate.FromTime = request.FromTime ?? existingUpdate.FromTime;
+            existingUpdate.ToTime = request.ToTime ?? existingUpdate.ToTime;
+            existingUpdate.Note = request.Note ?? existingUpdate.Note;
+            if (request.IsActive.HasValue)
+                existingUpdate.IsActive = request.IsActive.Value;
 
             await _context.SaveChangesAsync(cancellationToken);
 

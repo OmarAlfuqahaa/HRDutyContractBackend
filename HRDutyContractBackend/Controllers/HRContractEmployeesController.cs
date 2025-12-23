@@ -74,7 +74,7 @@ namespace HRDutyContractBackend.Controllers
             if (existing == null)
                 return NotFound("Employee not found.");
 
-            // Soft delete
+            //  delete
             existing.RecordDeleted = true;
             existing.IsActive = false;
 
