@@ -34,6 +34,7 @@ namespace HRDutyContract.DataAccess
             modelBuilder.Entity<HRContractMonthlyShifts>().ToTable("HR_Contract_Monthly_Shifts", "dbo");*/
 
             modelBuilder.Entity<HRContract>().HasKey(x=> new {x.ContractID, x.CompanyID});
+            modelBuilder.Entity<HRContractDepartment>().HasKey(x=> new {x.DetailsID, x.ContractID, x.CompanyID});
             modelBuilder.Entity<HRContractDutySchedule>().HasKey(x => new { x.DetailsID, x.ContractID, x.CompanyID });
 
         }

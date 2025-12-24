@@ -18,6 +18,10 @@ namespace HRDutyContract.Application.Common.Mappings
 
             CreateMap<HRContractDutySchedule, HRCDS_Response>();
 
+            CreateMap<HRContractDepartment, HRContractDepartment>()
+                    .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+
 
         }
     }

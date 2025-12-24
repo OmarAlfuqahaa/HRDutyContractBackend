@@ -1,7 +1,5 @@
 ﻿using HRDutyContract.DataAccess;
-using HRDutyContract.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
 using HRDutyContract.Application.HRDutyContract.Queries;
 using HRDutyContract.Application.HRDutyContract.Commands;
@@ -89,6 +87,8 @@ namespace HRDutyContractBackend.Controllers
               return Ok(contract);
           }*/
 
+
+        // GET: api/HRContract/Details/
         [HttpGet("Details")]
         public async Task<IActionResult> GetContractDetails([FromQuery] GetContractDetailsByIdQuery Query) 
         {
