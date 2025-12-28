@@ -5,6 +5,11 @@ namespace HRDutyContract.Application.HRDutyContract.Commands
 {
     public class ManageHRContractDutyScheduleCommand : IRequest<AbstractViewModel>
     {
+        public List<HRContractDutyScheduleItem> Schedules { get; set; } = new();
+    }
+    
+    public class HRContractDutyScheduleItem
+    {
         public int DetailsID { get; set; }
         public int ContractID { get; set; }
         public int CompanyID { get; set; }

@@ -7,5 +7,8 @@ namespace HRDutyContract.Application.Common.ViewModels
         public bool status { get; set; } = false;
         public int EntityId { get; set; }
         public List<string> lstError { get; set; } = new List<string>();
+
+        public List<AbstractViewModel> lstResult { get; set; } = new List<AbstractViewModel>();
+
     }
 }

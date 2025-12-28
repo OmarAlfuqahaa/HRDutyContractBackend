@@ -8,7 +8,8 @@ using HRDutyContract.Application.Common.Services;
 
 namespace HRDutyContract.Application.HRDutyContract.Handlers
 {
-    public class ManageHRContractDutyScheduleCommandHandler : IRequestHandler<ManageHRContractDutyScheduleCommand, AbstractViewModel>
+    public class ManageHRContractDutyScheduleCommandHandler
+        : IRequestHandler<ManageHRContractDutyScheduleCommand, AbstractViewModel>
     {
         private readonly IHRContext _context;
 
@@ -20,79 +21,134 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
         public async Task<AbstractViewModel> Handle(ManageHRContractDutyScheduleCommand request, CancellationToken cancellationToken)
         {
             var vm = new AbstractViewModel();
+            vm.lstResult = new List<AbstractViewModel>(); 
 
-            // DELETE
-            if (request.IsDelete)
+            foreach (var item in request.Schedules)
             {
-                if (request.DetailsID <= 0)
+                var singleVm = new AbstractViewModel();
+                try
                 {
-                    vm.lstError.Add("Cannot delete a record with invalid DetailsID.");
-                    return vm;
+                    // DELETE
+                    if (item.IsDelete)
+                    {
+                        if (item.DetailsID <= 0)
+                        {
+                            singleVm.lstError.Add("Cannot delete a record with invalid DetailsID.");
+                        }
+                        else
+                        {
+                            var existingDelete = await _context.HRContractDutySchedules
+                                .FirstOrDefaultAsync(x => x.DetailsID == item.DetailsID, cancellationToken);
+
+                            if (existingDelete == null)
+                            {
+                                singleVm.lstError.Add($"Record with DetailsID = {item.DetailsID} does not exist.");
+                            }
+                            else
+                            {
+                                existingDelete.RecordDeleted = true;
+                                existingDelete.IsActive = false;
+                                await _context.SaveChangesAsync(cancellationToken);
+
+                                singleVm.EntityId = existingDelete.DetailsID;
+                                singleVm.status = true;
+                            }
+                        }
+                        vm.lstResult.Add(singleVm);
+                        continue;
+                    }
+
+                    // CREATE
+                    if (item.DetailsID == 0)
+                    {
+                        var newEntity = new HRContractDutySchedule
+                        {
+                            ContractID = item.ContractID,
+                            CompanyID = item.CompanyID,
+                            ShiftTypeID = item.ShiftTypeID,
+                            FromTime = item.FromTime,
+                            ToTime = item.ToTime,
+                            ShiftTotalHours = item.ShiftTotalHours,
+                            Multiplier = item.Multiplier,
+                            InCall_Multiplier = item.InCall_Multiplier,
+                            OnCall_Multiplier = item.OnCall_Multiplier,
+                            Amount = item.Amount,
+                            BaseLine = item.BaseLine,
+                            AllowanceTypeID = item.AllowanceTypeID,
+                            AllowanceTypeID2 = item.AllowanceTypeID2,
+                            IsWithSalaryCalculate = item.IsWithSalaryCalculate,
+                            ShiftBehaviorID = item.ShiftBehaviorID,
+                            MonthlyMaxShifts = item.MonthlyMaxShifts,
+                            HolidayMultiplier = item.HolidayMultiplier,
+                            HolidayInCall_Multiplier = item.HolidayInCall_Multiplier,
+                            HolidayOnCall_Multiplier = item.HolidayOnCall_Multiplier,
+                            IsActive = item.IsActive ?? true,
+                            Note = item.Note,
+                            RecordAddBy = item.RecordAddBy,
+                            RecordUpdateBy = item.RecordUpdateBy,
+                            RecordNote = item.RecordNote,
+                            RecordDeleted = false,
+                            RecordDateEntry = item.RecordDateEntry ?? DateTime.Now
+                        };
+
+                        _context.HRContractDutySchedules.Add(newEntity);
+                        await _context.SaveChangesAsync(cancellationToken);
+
+                        singleVm.EntityId = newEntity.DetailsID;
+                        singleVm.status = true;
+                        vm.lstResult.Add(singleVm);
+                        continue;
+                    }
+
+                    // UPDATE
+                    var existingUpdate = await _context.HRContractDutySchedules
+                        .FirstOrDefaultAsync(x => x.DetailsID == item.DetailsID, cancellationToken);
+
+                    if (existingUpdate == null)
+                    {
+                        singleVm.lstError.Add($"Record with DetailsID = {item.DetailsID} does not exist, cannot update.");
+                        vm.lstResult.Add(singleVm);
+                        continue;
+                    }
+
+                    existingUpdate.ContractID = item.ContractID != 0 ? item.ContractID : existingUpdate.ContractID;
+                    existingUpdate.CompanyID = item.CompanyID != 0 ? item.CompanyID : existingUpdate.CompanyID;
+                    existingUpdate.ShiftTypeID = item.ShiftTypeID ?? existingUpdate.ShiftTypeID;
+                    existingUpdate.FromTime = item.FromTime ?? existingUpdate.FromTime;
+                    existingUpdate.ToTime = item.ToTime ?? existingUpdate.ToTime;
+                    existingUpdate.ShiftTotalHours = item.ShiftTotalHours ?? existingUpdate.ShiftTotalHours;
+                    existingUpdate.Multiplier = item.Multiplier ?? existingUpdate.Multiplier;
+                    existingUpdate.InCall_Multiplier = item.InCall_Multiplier ?? existingUpdate.InCall_Multiplier;
+                    existingUpdate.OnCall_Multiplier = item.OnCall_Multiplier ?? existingUpdate.OnCall_Multiplier;
+                    existingUpdate.Amount = item.Amount ?? existingUpdate.Amount;
+                    existingUpdate.BaseLine = item.BaseLine ?? existingUpdate.BaseLine;
+                    existingUpdate.AllowanceTypeID = item.AllowanceTypeID ?? existingUpdate.AllowanceTypeID;
+                    existingUpdate.AllowanceTypeID2 = item.AllowanceTypeID2 ?? existingUpdate.AllowanceTypeID2;
+                    existingUpdate.IsWithSalaryCalculate = item.IsWithSalaryCalculate ?? existingUpdate.IsWithSalaryCalculate;
+                    existingUpdate.ShiftBehaviorID = item.ShiftBehaviorID ?? existingUpdate.ShiftBehaviorID;
+                    existingUpdate.MonthlyMaxShifts = item.MonthlyMaxShifts ?? existingUpdate.MonthlyMaxShifts;
+                    existingUpdate.HolidayMultiplier = item.HolidayMultiplier ?? existingUpdate.HolidayMultiplier;
+                    existingUpdate.HolidayInCall_Multiplier = item.HolidayInCall_Multiplier ?? existingUpdate.HolidayInCall_Multiplier;
+                    existingUpdate.HolidayOnCall_Multiplier = item.HolidayOnCall_Multiplier ?? existingUpdate.HolidayOnCall_Multiplier;
+                    existingUpdate.IsActive = item.IsActive ?? existingUpdate.IsActive;
+                    existingUpdate.Note = item.Note ?? existingUpdate.Note;
+                    existingUpdate.RecordAddBy = item.RecordAddBy ?? existingUpdate.RecordAddBy;
+                    existingUpdate.RecordUpdateBy = item.RecordUpdateBy ?? existingUpdate.RecordUpdateBy;
+                    existingUpdate.RecordNote = item.RecordNote ?? existingUpdate.RecordNote;
+
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                    singleVm.EntityId = existingUpdate.DetailsID;
+                    singleVm.status = true;
+                    vm.lstResult.Add(singleVm);
                 }
-
-                var existingDelete = await _context.HRContractDutySchedules
-                    .FirstOrDefaultAsync(x => x.DetailsID == request.DetailsID, cancellationToken);
-
-                if (existingDelete == null)
+                catch (Exception ex)
                 {
-                    vm.lstError.Add($"Record with DetailsID = {request.DetailsID} does not exist.");
-                    return vm;
+                    singleVm.lstError.Add($"Error processing DetailsID = {item.DetailsID}: {ex.Message}");
+                    vm.lstResult.Add(singleVm);
                 }
-
-                existingDelete.RecordDeleted = true;
-                existingDelete.IsActive = false;
-
-                await _context.SaveChangesAsync(cancellationToken);
-
-                vm.EntityId = existingDelete.DetailsID;
-                vm.status = true;
-                return vm;
             }
 
-            // CREATE
-            if (request.DetailsID == 0)
-            {
-                var newEntity = new HRContractDutySchedule
-                {
-                    ContractID = request.ContractID,
-                    ShiftTypeID = request.ShiftTypeID,
-                    FromTime = request.FromTime,
-                    ToTime = request.ToTime,
-                    Note = request.Note,
-                    IsActive = request.IsActive ?? true,
-                    RecordDeleted = false,
-                    RecordDateEntry = DateTime.Now
-                };
-
-                _context.HRContractDutySchedules.Add(newEntity);
-                await _context.SaveChangesAsync(cancellationToken);
-
-                vm.EntityId = newEntity.DetailsID;
-                vm.status = true;
-                return vm;
-            }
-
-            // UPDATE
-            var existingUpdate = await _context.HRContractDutySchedules
-                .FirstOrDefaultAsync(x => x.DetailsID == request.DetailsID, cancellationToken);
-
-            if (existingUpdate == null)
-            {
-                vm.lstError.Add($"Record with DetailsID = {request.DetailsID} does not exist, cannot update.");
-                return vm;
-            }
-
-            existingUpdate.ContractID = request.ContractID != 0 ? request.ContractID : existingUpdate.ContractID;
-            existingUpdate.ShiftTypeID = request.ShiftTypeID != 0 ? request.ShiftTypeID : existingUpdate.ShiftTypeID;
-            existingUpdate.FromTime = request.FromTime ?? existingUpdate.FromTime;
-            existingUpdate.ToTime = request.ToTime ?? existingUpdate.ToTime;
-            existingUpdate.Note = request.Note ?? existingUpdate.Note;
-            if (request.IsActive.HasValue)
-                existingUpdate.IsActive = request.IsActive.Value;
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            vm.EntityId = existingUpdate.DetailsID;
             vm.status = true;
             return vm;
         }

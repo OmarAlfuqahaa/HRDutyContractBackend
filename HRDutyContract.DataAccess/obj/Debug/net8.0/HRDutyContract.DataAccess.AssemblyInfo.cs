@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HRDutyContract.DataAccess")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+de4828dcd20a4852b0a6f9462c1ef7a926bbc384")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0eb9e0112c24066cafda51b8dd66b6d3c991189f")]
 [assembly: System.Reflection.AssemblyProductAttribute("HRDutyContract.DataAccess")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HRDutyContract.DataAccess")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
