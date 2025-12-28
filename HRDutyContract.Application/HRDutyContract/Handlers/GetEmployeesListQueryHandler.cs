@@ -32,6 +32,12 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                     {
                         query = query.Where(x => x.IsActive == isActive);
                     }
+
+                    if (filter.Field.Equals("ContractID", StringComparison.OrdinalIgnoreCase)
+                            && int.TryParse(filter.Value, out var contractId))
+                    {
+                        query = query.Where(x => x.ContractID == contractId);
+                    }
                 }
             }
 

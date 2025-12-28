@@ -29,7 +29,11 @@ namespace HRDutyContractBackend.Controllers
 
         // GET: api/HRContractMonthlyShifts/List
         [HttpGet("List")]
-        public async Task<IActionResult> GetMonthlyShiftsList([FromQuery] bool? isActive, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> GetMonthlyShiftsList(
+            [FromQuery] bool? isActive,
+            [FromQuery] int? contractId,  
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
             var query = new GetMonthlyShiftsListQuery
             {
@@ -47,9 +51,19 @@ namespace HRDutyContractBackend.Controllers
                 });
             }
 
+            if (contractId.HasValue)  
+            {
+                query.Filters.Add(new FilterItem
+                {
+                    Field = "ContractID",
+                    Value = contractId.Value.ToString()
+                });
+            }
+
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+
 
     }
 }

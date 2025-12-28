@@ -26,28 +26,30 @@ namespace HRDutyContractBackend.Controllers
 
         [HttpGet("List")]
         public async Task<IActionResult> GetEmployeesList(
-            [FromQuery] bool? isActive,
-            [FromQuery] int pageNumber = 1,
-            [FromQuery] int pageSize = 10)
+                [FromQuery] bool? isActive,
+                [FromQuery] int? contractId,   
+                [FromQuery] int pageNumber = 1,
+                [FromQuery] int pageSize = 10)
         {
+            var filters = new List<FilterItem>();  
+
+            if (isActive.HasValue)
+                filters.Add(new FilterItem { Field = "IsActive", Value = isActive.Value.ToString() });
+
+            if (contractId.HasValue)
+                filters.Add(new FilterItem { Field = "ContractID", Value = contractId.Value.ToString() });
+
             var query = new GetEmployeesListQuery
             {
                 PageNumber = pageNumber,
-                PageSize = pageSize
+                PageSize = pageSize,
+                Filters = filters
             };
-
-            
-            if (isActive.HasValue)
-            {
-                query.Filters = new List<FilterItem>
-                {
-                    new FilterItem { Field = "IsActive", Value = isActive.Value.ToString() }
-                };
-            }
 
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+
 
 
     }

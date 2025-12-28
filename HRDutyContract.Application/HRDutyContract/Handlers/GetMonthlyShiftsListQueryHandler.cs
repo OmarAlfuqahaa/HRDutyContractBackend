@@ -22,6 +22,23 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
         {
             var query = _context.HRContractMonthlyShifts.AsQueryable();
 
+            if (request.Filters != null && request.Filters.Any())
+            {
+                foreach (var filter in request.Filters)
+                {
+                    if (filter.Field.Equals("IsActive", StringComparison.OrdinalIgnoreCase)
+                        && bool.TryParse(filter.Value, out var isActive))
+                    {
+                        query = query.Where(x => x.IsActive == isActive);
+                    }
+
+                    if (filter.Field.Equals("ContractID", StringComparison.OrdinalIgnoreCase)
+                        && int.TryParse(filter.Value, out var contractId))
+                    {
+                        query = query.Where(x => x.ContractID == contractId);
+                    }
+                }
+            }
 
 
             var rowsCount = await query.CountAsync(cancellationToken);

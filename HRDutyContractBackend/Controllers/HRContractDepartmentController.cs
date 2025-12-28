@@ -31,6 +31,7 @@ namespace HRDutyContractBackend.Controllers
         [HttpGet("List")]
         public async Task<IActionResult> GetDepartmentsList(
              [FromQuery] bool? isActive,
+             [FromQuery] int? contractId,
              [FromQuery] int pageNumber = 1,
              [FromQuery] int pageSize = 10)
         {
@@ -42,6 +43,15 @@ namespace HRDutyContractBackend.Controllers
                 {
                     Field = "IsActive",
                     Value = isActive.Value.ToString()
+                });
+            }
+
+            if (contractId.HasValue)   
+            {
+                filters.Add(new FilterItem
+                {
+                    Field = "ContractID",
+                    Value = contractId.Value.ToString()
                 });
             }
 

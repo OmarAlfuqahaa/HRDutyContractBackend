@@ -1,7 +1,28 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Lenovo\\source\\repos\\HRDutyContractBackend\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{46450B11-0A95-44BD-9021-ECE58E6A84F5}|HRDutyContract.Application\\HRDutyContract.Application.csproj|c:\\users\\lenovo\\source\\repos\\hrdutycontractbackend\\hrdutycontract.application\\hrdutycontract\\handlers\\getmonthlyshiftslistqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46450B11-0A95-44BD-9021-ECE58E6A84F5}|HRDutyContract.Application\\HRDutyContract.Application.csproj|solutionrelative:hrdutycontract.application\\hrdutycontract\\handlers\\getmonthlyshiftslistqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{465A9ED2-195C-42A5-A9B0-1570FB0E2BF5}|HRDutyContractBackend\\HRDutyContractBackend.csproj|c:\\users\\lenovo\\source\\repos\\hrdutycontractbackend\\hrdutycontractbackend\\controllers\\hrcontractemployeescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{465A9ED2-195C-42A5-A9B0-1570FB0E2BF5}|HRDutyContractBackend\\HRDutyContractBackend.csproj|solutionrelative:hrdutycontractbackend\\controllers\\hrcontractemployeescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{465A9ED2-195C-42A5-A9B0-1570FB0E2BF5}|HRDutyContractBackend\\HRDutyContractBackend.csproj|c:\\users\\lenovo\\source\\repos\\hrdutycontractbackend\\hrdutycontractbackend\\controllers\\hrcontractmonthlyshiftscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{465A9ED2-195C-42A5-A9B0-1570FB0E2BF5}|HRDutyContractBackend\\HRDutyContractBackend.csproj|solutionrelative:hrdutycontractbackend\\controllers\\hrcontractmonthlyshiftscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46450B11-0A95-44BD-9021-ECE58E6A84F5}|HRDutyContract.Application\\HRDutyContract.Application.csproj|c:\\users\\lenovo\\source\\repos\\hrdutycontractbackend\\hrdutycontract.application\\hrdutycontract\\handlers\\getemployeeslistqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46450B11-0A95-44BD-9021-ECE58E6A84F5}|HRDutyContract.Application\\HRDutyContract.Application.csproj|solutionrelative:hrdutycontract.application\\hrdutycontract\\handlers\\getemployeeslistqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46450B11-0A95-44BD-9021-ECE58E6A84F5}|HRDutyContract.Application\\HRDutyContract.Application.csproj|c:\\users\\lenovo\\source\\repos\\hrdutycontractbackend\\hrdutycontract.application\\hrdutycontract\\handlers\\managehrcontractemployeescommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46450B11-0A95-44BD-9021-ECE58E6A84F5}|HRDutyContract.Application\\HRDutyContract.Application.csproj|solutionrelative:hrdutycontract.application\\hrdutycontract\\handlers\\managehrcontractemployeescommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -45,7 +66,76 @@
             },
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GetMonthlyShiftsListQueryHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\source\\repos\\HRDutyContractBackend\\HRDutyContract.Application\\HRDutyContract\\Handlers\\GetMonthlyShiftsListQueryHandler.cs",
+              "RelativeDocumentMoniker": "HRDutyContract.Application\\HRDutyContract\\Handlers\\GetMonthlyShiftsListQueryHandler.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\source\\repos\\HRDutyContractBackend\\HRDutyContract.Application\\HRDutyContract\\Handlers\\GetMonthlyShiftsListQueryHandler.cs",
+              "RelativeToolTip": "HRDutyContract.Application\\HRDutyContract\\Handlers\\GetMonthlyShiftsListQueryHandler.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAQwCQAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-28T09:09:38.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "HRContractMonthlyShiftsController.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\source\\repos\\HRDutyContractBackend\\HRDutyContractBackend\\Controllers\\HRContractMonthlyShiftsController.cs",
+              "RelativeDocumentMoniker": "HRDutyContractBackend\\Controllers\\HRContractMonthlyShiftsController.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\source\\repos\\HRDutyContractBackend\\HRDutyContractBackend\\Controllers\\HRContractMonthlyShiftsController.cs",
+              "RelativeToolTip": "HRDutyContractBackend\\Controllers\\HRContractMonthlyShiftsController.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAA5wCUAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-28T09:05:59.914Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GetEmployeesListQueryHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\source\\repos\\HRDutyContractBackend\\HRDutyContract.Application\\HRDutyContract\\Handlers\\GetEmployeesListQueryHandler.cs",
+              "RelativeDocumentMoniker": "HRDutyContract.Application\\HRDutyContract\\Handlers\\GetEmployeesListQueryHandler.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\source\\repos\\HRDutyContractBackend\\HRDutyContract.Application\\HRDutyContract\\Handlers\\GetEmployeesListQueryHandler.cs",
+              "RelativeToolTip": "HRDutyContract.Application\\HRDutyContract\\Handlers\\GetEmployeesListQueryHandler.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACcAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-28T09:03:32.351Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ManageHRContractEmployeesCommandHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\source\\repos\\HRDutyContractBackend\\HRDutyContract.Application\\HRDutyContract\\Handlers\\ManageHRContractEmployeesCommandHandler.cs",
+              "RelativeDocumentMoniker": "HRDutyContract.Application\\HRDutyContract\\Handlers\\ManageHRContractEmployeesCommandHandler.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\source\\repos\\HRDutyContractBackend\\HRDutyContract.Application\\HRDutyContract\\Handlers\\ManageHRContractEmployeesCommandHandler.cs",
+              "RelativeToolTip": "HRDutyContract.Application\\HRDutyContract\\Handlers\\ManageHRContractEmployeesCommandHandler.cs",
+              "ViewState": "AQIAACEAAAAAAAAAAAAowEgAAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-28T08:58:06.066Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HRContractEmployeesController.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\source\\repos\\HRDutyContractBackend\\HRDutyContractBackend\\Controllers\\HRContractEmployeesController.cs",
+              "RelativeDocumentMoniker": "HRDutyContractBackend\\Controllers\\HRContractEmployeesController.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\source\\repos\\HRDutyContractBackend\\HRDutyContractBackend\\Controllers\\HRContractEmployeesController.cs",
+              "RelativeToolTip": "HRDutyContractBackend\\Controllers\\HRContractEmployeesController.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAgwB0AAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-28T08:55:30.975Z",
+              "EditorCaption": ""
             }
           ]
         }
