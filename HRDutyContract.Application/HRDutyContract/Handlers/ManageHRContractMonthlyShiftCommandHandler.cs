@@ -13,78 +13,96 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
        : IRequestHandler<ManageHRContractMonthlyShiftCommand, AbstractViewModel>
     {
         private readonly IHRContext _context;
-        private readonly IMapper _mapper;
 
-        public ManageHRContractMonthlyShiftCommandHandler(IHRContext context, IMapper mapper)
+        public ManageHRContractMonthlyShiftCommandHandler(IHRContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<AbstractViewModel> Handle(
-    ManageHRContractMonthlyShiftCommand request,
-    CancellationToken cancellationToken)
+            ManageHRContractMonthlyShiftCommand request,
+            CancellationToken cancellationToken)
         {
             var response = new AbstractViewModel();
 
-            try
+            foreach (var item in request.Shifts)
             {
-                if (request.Shift == null)
-                {
-                    response.lstError.Add("Shift object cannot be null.");
-                    return response;
-                }
+                var singleResult = new AbstractViewModel();
 
-                var existingShift = await _context.HRContractMonthlyShifts
-                    .FirstOrDefaultAsync(x =>
-                        x.DetailsID == request.Shift.DetailsID &&
-                        x.ContractID == request.Shift.ContractID &&
-                        x.CompanyID == request.Shift.CompanyID,
-                        cancellationToken);
-
-                if (request.IsDelete)
+                try
                 {
-                    if (existingShift == null)
+                    if (item.Shift == null)
                     {
-                        response.lstError.Add("Shift not found for deletion.");
-                        return response;
+                        singleResult.lstError.Add("Shift object cannot be null.");
+                        response.lstResult.Add(singleResult);
+                        continue;
                     }
 
-                    existingShift.RecordDeleted = true;
-                    await _context.SaveChangesAsync(cancellationToken);
+                    var existing = await _context.HRContractMonthlyShifts
+                        .FirstOrDefaultAsync(x =>
+                            x.DetailsID == item.Shift.DetailsID &&
+                            x.ContractID == item.Shift.ContractID &&
+                            x.CompanyID == item.Shift.CompanyID,
+                            cancellationToken);
 
-                    response.status = true;
-                    response.EntityId = existingShift.DetailsID;
-                    return response;
+                    // DELETE
+                    if (item.IsDelete)
+                    {
+                        if (existing == null)
+                        {
+                            singleResult.lstError.Add("Shift not found for deletion.");
+                        }
+                        else
+                        {
+                            existing.RecordDeleted = true;
+                            existing.IsActive = false;
+                            await _context.SaveChangesAsync(cancellationToken);
+
+                            singleResult.status = true;
+                            singleResult.EntityId = existing.DetailsID;
+                        }
+
+                        response.lstResult.Add(singleResult);
+                        continue;
+                    }
+
+                    // UPDATE
+                    if (existing != null)
+                    {
+                        existing.Month = item.Shift.Month;
+                        existing.Year = item.Shift.Year;
+                        existing.TotalShifts = item.Shift.TotalShifts;
+                        existing.Note = item.Shift.Note;
+                        existing.IsActive = item.Shift.IsActive;
+
+                        await _context.SaveChangesAsync(cancellationToken);
+
+                        singleResult.status = true;
+                        singleResult.EntityId = existing.DetailsID;
+                    }
+                    // CREATE
+                    else
+                    {
+                        item.Shift.RecordDeleted = false;
+                        await _context.HRContractMonthlyShifts
+                            .AddAsync(item.Shift, cancellationToken);
+
+                        await _context.SaveChangesAsync(cancellationToken);
+
+                        singleResult.status = true;
+                        singleResult.EntityId = item.Shift.DetailsID;
+                    }
                 }
-
-                if (existingShift != null)
+                catch (Exception ex)
                 {
-                    existingShift.Month = request.Shift.Month;
-                    existingShift.Year = request.Shift.Year;
-                    existingShift.TotalShifts = request.Shift.TotalShifts;
-                    existingShift.Note = request.Shift.Note;
-                    existingShift.IsActive = request.Shift.IsActive;
-                }
-                else
-                {
-                    request.Shift.RecordDeleted = false;
-                    await _context.HRContractMonthlyShifts
-                        .AddAsync(request.Shift, cancellationToken);
+                    singleResult.lstError.Add(ex.Message);
                 }
 
-                await _context.SaveChangesAsync(cancellationToken);
-
-                response.status = true;
-                response.EntityId = request.Shift.DetailsID;
-            }
-            catch (Exception ex)
-            {
-                response.lstError.Add(ex.Message);
+                response.lstResult.Add(singleResult);
             }
 
+            response.status = true;
             return response;
         }
-
     }
 }

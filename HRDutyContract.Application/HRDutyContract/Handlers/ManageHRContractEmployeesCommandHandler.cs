@@ -22,71 +22,82 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
 
         public async Task<AbstractViewModel> Handle(ManageHRContractEmployeesCommand request, CancellationToken cancellationToken)
         {
-            var result = new AbstractViewModel();
+            var response = new AbstractViewModel();
 
-            // DELETE 
-            if (request.IsDelete)
+            response.lstResult = new List<AbstractViewModel>();
+
+            foreach (var item in request.Employees)
             {
-                var entity = await _context.HRContractEmployees
-                    .FirstOrDefaultAsync(x =>
-                        x.DetailsID == request.Employee.DetailsID &&
-                        x.ContractID == request.Employee.ContractID &&
-                        x.CompanyID == request.Employee.CompanyID,
-                        cancellationToken);
+                var singleResult = new AbstractViewModel();
 
-                if (entity == null)
+                try
                 {
-                    result.lstError.Add("Record not found");
-                    return result;
+                    if (item.Employee == null)
+                    {
+                        singleResult.lstError.Add("Employee object cannot be null.");
+                        response.lstResult.Add(singleResult);
+                        continue;
+                    }
+
+                    var existing = await _context.HRContractEmployees
+                        .FirstOrDefaultAsync(x =>
+                            x.DetailsID == item.Employee.DetailsID &&
+                            x.ContractID == item.Employee.ContractID &&
+                            x.CompanyID == item.Employee.CompanyID,
+                            cancellationToken);
+
+                    // DELETE
+                    if (item.IsDelete)
+                    {
+                        if (existing == null)
+                        {
+                            singleResult.lstError.Add("Record not found for deletion.");
+                        }
+                        else
+                        {
+                            existing.RecordDeleted = true;
+                            existing.IsActive = false;
+                            await _context.SaveChangesAsync(cancellationToken);
+
+                            singleResult.status = true;
+                            singleResult.EntityId = existing.DetailsID;
+                        }
+
+                        response.lstResult.Add(singleResult);
+                        continue;
+                    }
+
+                    // UPDATE
+                    if (existing != null)
+                    {
+                        _mapper.Map(item.Employee, existing);
+                        await _context.SaveChangesAsync(cancellationToken);
+
+                        singleResult.status = true;
+                        singleResult.EntityId = existing.DetailsID;
+                    }
+                    // CREATE
+                    else
+                    {
+                        item.Employee.RecordDeleted = false;
+                        item.Employee.RecordDateEntry = DateTime.Now;
+                        await _context.HRContractEmployees.AddAsync(item.Employee, cancellationToken);
+                        await _context.SaveChangesAsync(cancellationToken);
+
+                        singleResult.status = true;
+                        singleResult.EntityId = item.Employee.DetailsID;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    singleResult.lstError.Add(ex.Message);
                 }
 
-                entity.RecordDeleted = true;
-                entity.IsActive = false;
-
-                await _context.SaveChangesAsync(cancellationToken);
-
-                result.status = true;
-                result.EntityId = entity.DetailsID;
-                return result;
+                response.lstResult.Add(singleResult);
             }
 
-            // CREATE
-            if (request.Employee.DetailsID == 0)
-            {
-                var entity = _mapper.Map<HRContractEmployees>(request.Employee);
-
-                entity.RecordDateEntry = DateTime.Now;
-                entity.RecordDeleted = false;
-
-                await _context.HRContractEmployees.AddAsync(entity, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken);
-
-                result.status = true;
-                result.EntityId = entity.DetailsID;
-                return result;
-            }
-
-            //UPDATE
-            var existing = await _context.HRContractEmployees
-                .FirstOrDefaultAsync(x =>
-                    x.DetailsID == request.Employee.DetailsID &&
-                    x.ContractID == request.Employee.ContractID &&
-                    x.CompanyID == request.Employee.CompanyID,
-                    cancellationToken);
-
-            if (existing == null)
-            {
-                result.lstError.Add("Record not found");
-                return result;
-            }
-
-            _mapper.Map(request.Employee, existing);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            result.status = true;
-            result.EntityId = existing.DetailsID;
-            return result;
+            response.status = true;
+            return response;
         }
     }
 

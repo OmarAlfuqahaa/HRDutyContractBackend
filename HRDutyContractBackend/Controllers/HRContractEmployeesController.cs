@@ -24,6 +24,8 @@ namespace HRDutyContractBackend.Controllers
         }
 
 
+
+
         [HttpGet("List")]
         public async Task<IActionResult> GetEmployeesList(
                 [FromQuery] bool? isActive,

@@ -19,11 +19,13 @@ namespace HRDutyContractBackend.Controllers
 
         // POST: api/HRContractMonthlyShifts/Manage
         [HttpPost("Manage")]
-        public async Task<IActionResult> ManageMonthlyShift([FromBody] ManageHRContractMonthlyShiftCommand command)
+        public async Task<IActionResult> ManageMonthlyShift(
+                [FromBody] ManageHRContractMonthlyShiftCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
         }
+
 
 
 
