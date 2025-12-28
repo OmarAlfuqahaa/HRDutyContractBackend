@@ -16,9 +16,10 @@ namespace HRDutyContract.Application.HRDutyContract.Commands
 
         public int? ShiftTypeID { get; set; }
 
-        public TimeSpan? FromTime { get; set; }
-        public TimeSpan? ToTime { get; set; }
-        public TimeSpan? ShiftTotalHours { get; set; }
+        public string? FromTime { get; set; }
+        public string? ToTime { get; set; }
+        public string? ShiftTotalHours { get; set; }
+
 
         public double? Multiplier { get; set; }
         public double? InCall_Multiplier { get; set; }

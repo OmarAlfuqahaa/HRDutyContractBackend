@@ -66,9 +66,9 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                             ContractID = item.ContractID,
                             CompanyID = item.CompanyID,
                             ShiftTypeID = item.ShiftTypeID,
-                            FromTime = item.FromTime,
-                            ToTime = item.ToTime,
-                            ShiftTotalHours = item.ShiftTotalHours,
+                            FromTime = item.FromTime != null ? TimeSpan.Parse(item.FromTime) : null,
+                            ToTime = item.ToTime != null ? TimeSpan.Parse(item.ToTime) : null,
+                            ShiftTotalHours = item.ShiftTotalHours != null ? TimeSpan.Parse(item.ShiftTotalHours) : null,
                             Multiplier = item.Multiplier,
                             InCall_Multiplier = item.InCall_Multiplier,
                             OnCall_Multiplier = item.OnCall_Multiplier,
@@ -114,9 +114,15 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                     existingUpdate.ContractID = item.ContractID != 0 ? item.ContractID : existingUpdate.ContractID;
                     existingUpdate.CompanyID = item.CompanyID != 0 ? item.CompanyID : existingUpdate.CompanyID;
                     existingUpdate.ShiftTypeID = item.ShiftTypeID ?? existingUpdate.ShiftTypeID;
-                    existingUpdate.FromTime = item.FromTime ?? existingUpdate.FromTime;
-                    existingUpdate.ToTime = item.ToTime ?? existingUpdate.ToTime;
-                    existingUpdate.ShiftTotalHours = item.ShiftTotalHours ?? existingUpdate.ShiftTotalHours;
+                    if (item.FromTime != null)
+                        existingUpdate.FromTime = TimeSpan.Parse(item.FromTime);
+
+                    if (item.ToTime != null)
+                        existingUpdate.ToTime = TimeSpan.Parse(item.ToTime);
+
+                    if (item.ShiftTotalHours != null)
+                        existingUpdate.ShiftTotalHours = TimeSpan.Parse(item.ShiftTotalHours);
+
                     existingUpdate.Multiplier = item.Multiplier ?? existingUpdate.Multiplier;
                     existingUpdate.InCall_Multiplier = item.InCall_Multiplier ?? existingUpdate.InCall_Multiplier;
                     existingUpdate.OnCall_Multiplier = item.OnCall_Multiplier ?? existingUpdate.OnCall_Multiplier;
