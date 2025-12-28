@@ -21,6 +21,13 @@ namespace HRDutyContract.Application.Common.Mappings
             CreateMap<HRContractDepartment, HRContractDepartment>()
                     .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<HRContractEmployees, HRContractEmployees>()
+                    .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<HRContractDepartment, GDLQ_HRContractDepartment>();
+            CreateMap<HRContractEmployees, GELQ_HRContractEmployees>();
+            CreateMap<HRContractMonthlyShifts, GMLQ_HRContractMonthlyShift>();
+
 
 
         }

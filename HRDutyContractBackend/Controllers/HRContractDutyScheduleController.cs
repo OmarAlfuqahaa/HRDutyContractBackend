@@ -1,9 +1,5 @@
-﻿
-using HRDutyContract.DataAccess;
-using HRDutyContract.Domain.Entities;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using HRDutyContract.Application.HRDutyContract.Queries;
 using HRDutyContract.Application.HRDutyContract.Commands;
 
@@ -15,6 +11,16 @@ namespace HRDutyContractBackend.Controllers
     {
         private readonly IMediator _mediator;
         public HRContractDutyScheduleController(IMediator mediator) => _mediator = mediator;
+
+
+        [HttpPost("Manage")]
+        public async Task<IActionResult> Manage(
+           [FromBody] ManageHRContractDutyScheduleCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
 
         [HttpGet("List")]
         public async Task<IActionResult> GetList(
@@ -36,15 +42,7 @@ namespace HRDutyContractBackend.Controllers
         }
 
 
-        [HttpPost("Manage")]
-        public async Task<IActionResult> Manage(
-            [FromBody] ManageHRContractDutyScheduleCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-
+       
 
     }
 }

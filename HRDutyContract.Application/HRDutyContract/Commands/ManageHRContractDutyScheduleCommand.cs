@@ -1,5 +1,4 @@
 ﻿using HRDutyContract.Application.Common.ViewModels;
-using HRDutyContract.Domain.Entities;
 using MediatR;
 
 namespace HRDutyContract.Application.HRDutyContract.Commands

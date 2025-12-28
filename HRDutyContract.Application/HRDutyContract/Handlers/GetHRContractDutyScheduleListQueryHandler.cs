@@ -28,7 +28,7 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
             if (request.IsActive.HasValue)
                 query = query.Where(x => x.IsActive == request.IsActive.Value);
 
-            query = query.OrderBy(x => x.DetailsID); 
+            query = query.OrderBy(x => x.DetailsID);
 
             var response = new HRCDS_ListResponse
             {

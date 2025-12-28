@@ -1,78 +1,55 @@
-﻿using HRDutyContract.DataAccess;
-using HRDutyContract.Domain.Entities;
+﻿using HRDutyContract.Application.HRDutyContract.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using HRDutyContract.Application.HRDutyContract.Commands;
+
 
 namespace HRDutyContractBackend.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class HRContractMonthlyShiftsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMediator _mediator;
 
-        public HRContractMonthlyShiftsController(ApplicationDbContext context)
+        public HRContractMonthlyShiftsController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
-        // POST: api/HRContractMonthlyShifts/Create
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] HRContractMonthlyShifts shift)
+        // POST: api/HRContractMonthlyShifts/Manage
+        [HttpPost("Manage")]
+        public async Task<IActionResult> ManageMonthlyShift([FromBody] ManageHRContractMonthlyShiftCommand command)
         {
-            if (shift == null)
-                return BadRequest("Shift data is required.");
-
-            shift.IsActive ??= true;
-            shift.RecordDateEntry = DateTime.Now;
-
-            _context.HRContractMonthlyShifts.Add(shift);
-            await _context.SaveChangesAsync();
-
-            return Ok(shift);
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
 
-        // POST: api/HRContractMonthlyShifts/Update
-        [HttpPost("Update")]
-        public async Task<IActionResult> Update([FromBody] HRContractMonthlyShifts shift)
+
+
+        // GET: api/HRContractMonthlyShifts/List
+        [HttpGet("List")]
+        public async Task<IActionResult> GetMonthlyShiftsList([FromQuery] bool? isActive, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            if (shift == null || shift.DetailsID == 0)
-                return BadRequest("Valid shift data is required.");
+            var query = new GetMonthlyShiftsListQuery
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Filters = new List<FilterItem>()
+            };
 
-            var existing = await _context.HRContractMonthlyShifts
-                                         .FindAsync(shift.DetailsID);
+            if (isActive.HasValue)
+            {
+                query.Filters.Add(new FilterItem
+                {
+                    Field = "IsActive",
+                    Value = isActive.Value.ToString()
+                });
+            }
 
-            if (existing == null)
-                return NotFound("Shift not found.");
-
-            existing.ContractID = shift.ContractID;
-            existing.CompanyID = shift.CompanyID;
-            existing.Month = shift.Month;
-            existing.Year = shift.Year;
-            existing.TotalShifts = shift.TotalShifts;
-            existing.TotalHours = shift.TotalHours;
-            existing.IsActive = shift.IsActive;
-            existing.RecordUpdateBy = shift.RecordUpdateBy;
-            existing.RecordNote = shift.RecordNote;
-
-            await _context.SaveChangesAsync();
-            return Ok(existing);
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
-        // POST: api/HRContractMonthlyShifts/Delete
-        [HttpPost("Delete")]
-        public async Task<IActionResult> Delete([FromBody] int id)
-        {
-            var existing = await _context.HRContractMonthlyShifts.FindAsync(id);
-            if (existing == null)
-                return NotFound("Shift not found.");
-
-            // Soft delete
-            existing.RecordDeleted = true;
-            existing.IsActive = false;
-
-            await _context.SaveChangesAsync();
-            return Ok("Shift soft-deleted successfully.");
-        }
     }
 }

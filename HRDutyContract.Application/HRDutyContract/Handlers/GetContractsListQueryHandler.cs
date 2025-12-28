@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using HRDutyContract.Application.Common.Interfaces;
 using HRDutyContract.Application.HRDutyContract.Queries;
-using HRDutyContract.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

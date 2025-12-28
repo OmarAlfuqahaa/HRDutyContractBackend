@@ -26,16 +26,16 @@ namespace HRDutyContract.Domain.Entities
         public DateTime? RecordDateEntry { get; set; }
 
         public int? OvertimeTypeID_NormalDuty { get; set; }
-        public float? Multiplier_NormalDuty { get; set; }
+        public double? Multiplier_NormalDuty { get; set; }
 
         public int? OvertimeTypeID_InVacation { get; set; }
-        public float? Multiplier_InVacation { get; set; }
+        public double? Multiplier_InVacation { get; set; }
 
-        public float? Multiplier_NormalDuty_FromRange { get; set; }
-        public float? Multiplier_NormalDuty_ToRange { get; set; }
+        public double? Multiplier_NormalDuty_FromRange { get; set; }
+        public double? Multiplier_NormalDuty_ToRange { get; set; }
 
-        public float? NextMultiplier_NormalDuty { get; set; }
-        public float? NextMultiplier_NormalDuty_FromRange { get; set; }
-        public float? NextMultiplier_NormalDuty_ToRange { get; set; }
+        public double? NextMultiplier_NormalDuty { get; set; }
+        public double? NextMultiplier_NormalDuty_FromRange { get; set; }
+        public double? NextMultiplier_NormalDuty_ToRange { get; set; }
     }
 }

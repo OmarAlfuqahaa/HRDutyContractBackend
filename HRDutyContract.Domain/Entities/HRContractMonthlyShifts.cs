@@ -17,8 +17,8 @@ namespace HRDutyContract.Domain.Entities
         public int? Month { get; set; }
         public int? Year { get; set; }
 
-        public float? TotalShifts { get; set; }
-        public float? TotalHours { get; set; }
+        public double? TotalShifts { get; set; }
+        public double? TotalHours { get; set; }
 
         public bool? IsActive { get; set; }
 

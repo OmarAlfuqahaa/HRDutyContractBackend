@@ -1,13 +1,7 @@
 using HRDutyContract.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using MediatR;
-using System.Reflection;
 using HRDutyContract.Application.HRDutyContract.Handlers;
 using HRDutyContract.Application.Common.Interfaces;
-using AutoMapper;
-using HRDutyContract.Application.Common.Mappings;
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +23,8 @@ builder.Services.AddMediatR(cfg =>
 });
 
 
-builder.Services.AddAutoMapper(typeof(HRContractProfile));
+// AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();

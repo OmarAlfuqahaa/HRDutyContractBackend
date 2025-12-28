@@ -1,5 +1,4 @@
 ﻿using HRDutyContract.Application.HRDutyContract.Queries;
-using HRDutyContract.Domain.Entities;
 using MediatR;
 using AutoMapper;
 using HRDutyContract.Application.Common.Interfaces;
@@ -28,7 +27,7 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                             _mapper.ConfigurationProvider)
                         .FirstOrDefaultAsync(cancellationToken);
 
-            return result; 
+            return result;
         }
     }
 }

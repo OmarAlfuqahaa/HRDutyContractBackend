@@ -12,8 +12,8 @@ namespace HRDutyContract.Application.HRDutyContract.Queries
 
     public class FilterItem
     {
-        public string Field { get; set; } = string.Empty; 
-        public string Value { get; set; } = string.Empty; 
+        public string Field { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
     }
 
     public class GCLQ_HRContract

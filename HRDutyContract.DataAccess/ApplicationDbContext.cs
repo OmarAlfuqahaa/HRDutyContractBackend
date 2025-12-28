@@ -28,14 +28,13 @@ namespace HRDutyContract.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            /*modelBuilder.Entity<HRContractDepartment>().ToTable("HR_Contract_Departments", "dbo");
-            modelBuilder.Entity<HRContractDutySchedule>().ToTable("HR_Contract_Duty_Schedule", "dbo");
-            modelBuilder.Entity<HRContractEmployees>().ToTable("HR_Contract_Employees", "dbo");
-            modelBuilder.Entity<HRContractMonthlyShifts>().ToTable("HR_Contract_Monthly_Shifts", "dbo");*/
-
-            modelBuilder.Entity<HRContract>().HasKey(x=> new {x.ContractID, x.CompanyID});
-            modelBuilder.Entity<HRContractDepartment>().HasKey(x=> new {x.DetailsID, x.ContractID, x.CompanyID});
+            modelBuilder.Entity<HRContract>().HasKey(x => new { x.ContractID, x.CompanyID });
+            modelBuilder.Entity<HRContractDepartment>().HasKey(x => new { x.DetailsID, x.ContractID, x.CompanyID });
             modelBuilder.Entity<HRContractDutySchedule>().HasKey(x => new { x.DetailsID, x.ContractID, x.CompanyID });
+            modelBuilder.Entity<HRContractEmployees>().HasKey(x => new { x.DetailsID, x.ContractID, x.CompanyID });
+            modelBuilder.Entity<HRContractMonthlyShifts>().HasKey(x => new { x.DetailsID, x.ContractID, x.CompanyID });
+
+
 
         }
     }

@@ -37,7 +37,7 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                 contract.CompanyID = 1;
 
                 newEntity.IsActive ??= true;
-                newEntity.RecordDeleted = false; 
+                newEntity.RecordDeleted = false;
                 newEntity.RecordDateEntry = DateTime.Now;
 
                 await _context.HRContracts.AddAsync(newEntity, cancellationToken);

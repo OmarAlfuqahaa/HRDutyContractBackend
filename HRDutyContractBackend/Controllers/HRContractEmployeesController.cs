@@ -1,7 +1,7 @@
-﻿using HRDutyContract.DataAccess;
-using HRDutyContract.Domain.Entities;
+﻿using HRDutyContract.Application.HRDutyContract.Commands;
+using HRDutyContract.Application.HRDutyContract.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace HRDutyContractBackend.Controllers
 {
@@ -9,77 +9,46 @@ namespace HRDutyContractBackend.Controllers
     [Route("api/[controller]")]
     public class HRContractEmployeesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMediator _mediator;
 
-        public HRContractEmployeesController(ApplicationDbContext context)
+        public HRContractEmployeesController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
-        // POST: api/HRContractEmployees/Create
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] HRContractEmployees employee)
+        [HttpPost("Manage")]
+        public async Task<IActionResult> Manage([FromBody] ManageHRContractEmployeesCommand command)
         {
-            if (employee == null)
-                return BadRequest("Employee data is required.");
-
-            employee.IsActive ??= true;
-            employee.RecordDateEntry = DateTime.Now;
-
-            _context.HRContractEmployees.Add(employee);
-            await _context.SaveChangesAsync();
-
-            return Ok(employee);
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
 
-        // POST: api/HRContractEmployees/Update
-        [HttpPost("Update")]
-        public async Task<IActionResult> Update([FromBody] HRContractEmployees employee)
+
+        [HttpGet("List")]
+        public async Task<IActionResult> GetEmployeesList(
+            [FromQuery] bool? isActive,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
-            if (employee == null || employee.DetailsID == 0)
-                return BadRequest("Valid employee data is required.");
+            var query = new GetEmployeesListQuery
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
 
-            var existing = await _context.HRContractEmployees
-                                         .FindAsync(employee.DetailsID);
+            
+            if (isActive.HasValue)
+            {
+                query.Filters = new List<FilterItem>
+                {
+                    new FilterItem { Field = "IsActive", Value = isActive.Value.ToString() }
+                };
+            }
 
-            if (existing == null)
-                return NotFound("Employee not found.");
-
-            existing.ContractID = employee.ContractID;
-            existing.CompanyID = employee.CompanyID;
-            existing.UserID = employee.UserID;
-            existing.IsActive = employee.IsActive;
-            existing.RecordUpdateBy = employee.RecordUpdateBy;
-            existing.RecordNote = employee.RecordNote;
-
-            existing.OvertimeTypeID_NormalDuty = employee.OvertimeTypeID_NormalDuty;
-            existing.Multiplier_NormalDuty = employee.Multiplier_NormalDuty;
-            existing.OvertimeTypeID_InVacation = employee.OvertimeTypeID_InVacation;
-            existing.Multiplier_InVacation = employee.Multiplier_InVacation;
-            existing.Multiplier_NormalDuty_FromRange = employee.Multiplier_NormalDuty_FromRange;
-            existing.Multiplier_NormalDuty_ToRange = employee.Multiplier_NormalDuty_ToRange;
-            existing.NextMultiplier_NormalDuty = employee.NextMultiplier_NormalDuty;
-            existing.NextMultiplier_NormalDuty_FromRange = employee.NextMultiplier_NormalDuty_FromRange;
-            existing.NextMultiplier_NormalDuty_ToRange = employee.NextMultiplier_NormalDuty_ToRange;
-
-            await _context.SaveChangesAsync();
-            return Ok(existing);
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
-        // POST: api/HRContractEmployees/Delete
-        [HttpPost("Delete")]
-        public async Task<IActionResult> Delete([FromBody] int id)
-        {
-            var existing = await _context.HRContractEmployees.FindAsync(id);
-            if (existing == null)
-                return NotFound("Employee not found.");
 
-            //  delete
-            existing.RecordDeleted = true;
-            existing.IsActive = false;
-
-            await _context.SaveChangesAsync();
-            return Ok("Employee soft-deleted successfully.");
-        }
     }
 }

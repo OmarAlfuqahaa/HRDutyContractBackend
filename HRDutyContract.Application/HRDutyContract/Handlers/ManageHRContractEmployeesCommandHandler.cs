@@ -2,45 +2,36 @@
 using HRDutyContract.Application.Common.Interfaces;
 using HRDutyContract.Application.Common.ViewModels;
 using HRDutyContract.Application.HRDutyContract.Commands;
-using HRDutyContract.Application.HRDutyContract.Queries;
 using HRDutyContract.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace HRDutyContract.Application.HRDutyContract.Handlers
 {
-    public class ManageHRContractDepartmentCommandHandler
-        : IRequestHandler<ManageHRContractDepartmentCommand, AbstractViewModel>
+    public class ManageHRContractEmployeesCommandHandler
+       : IRequestHandler<ManageHRContractEmployeesCommand, AbstractViewModel>
     {
         private readonly IHRContext _context;
         private readonly IMapper _mapper;
 
-        public ManageHRContractDepartmentCommandHandler(
-            IHRContext context,
-            IMapper mapper)
+        public ManageHRContractEmployeesCommandHandler(IHRContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        public async Task<AbstractViewModel> Handle(
-    ManageHRContractDepartmentCommand request,
-    CancellationToken cancellationToken)
+        public async Task<AbstractViewModel> Handle(ManageHRContractEmployeesCommand request, CancellationToken cancellationToken)
         {
             var result = new AbstractViewModel();
 
-            // ===== Normalize =====
-            if (request.Department.DepartmentID == 0)
-                request.Department.DepartmentID = null;
-
-            // ================= DELETE =================
+            // DELETE 
             if (request.IsDelete)
             {
-                var entity = await _context.HRContractDepartments
+                var entity = await _context.HRContractEmployees
                     .FirstOrDefaultAsync(x =>
-                        x.DetailsID == request.Department.DetailsID &&
-                        x.ContractID == request.Department.ContractID &&
-                        x.CompanyID == request.Department.CompanyID,
+                        x.DetailsID == request.Employee.DetailsID &&
+                        x.ContractID == request.Employee.ContractID &&
+                        x.CompanyID == request.Employee.CompanyID,
                         cancellationToken);
 
                 if (entity == null)
@@ -59,15 +50,15 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                 return result;
             }
 
-            // ================= CREATE =================
-            if (request.Department.DetailsID == 0)
+            // CREATE
+            if (request.Employee.DetailsID == 0)
             {
-                var entity = _mapper.Map<HRContractDepartment>(request.Department);
+                var entity = _mapper.Map<HRContractEmployees>(request.Employee);
+
                 entity.RecordDateEntry = DateTime.Now;
                 entity.RecordDeleted = false;
-                entity.IsActive ??= true;
 
-                await _context.HRContractDepartments.AddAsync(entity, cancellationToken);
+                await _context.HRContractEmployees.AddAsync(entity, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 result.status = true;
@@ -75,12 +66,12 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                 return result;
             }
 
-            // ================= UPDATE =================
-            var existing = await _context.HRContractDepartments
+            //UPDATE
+            var existing = await _context.HRContractEmployees
                 .FirstOrDefaultAsync(x =>
-                    x.DetailsID == request.Department.DetailsID &&
-                    x.ContractID == request.Department.ContractID &&
-                    x.CompanyID == request.Department.CompanyID,
+                    x.DetailsID == request.Employee.DetailsID &&
+                    x.ContractID == request.Employee.ContractID &&
+                    x.CompanyID == request.Employee.CompanyID,
                     cancellationToken);
 
             if (existing == null)
@@ -89,13 +80,14 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                 return result;
             }
 
-            _mapper.Map(request.Department, existing);
+            _mapper.Map(request.Employee, existing);
+
             await _context.SaveChangesAsync(cancellationToken);
 
             result.status = true;
             result.EntityId = existing.DetailsID;
             return result;
         }
-
     }
+
 }
