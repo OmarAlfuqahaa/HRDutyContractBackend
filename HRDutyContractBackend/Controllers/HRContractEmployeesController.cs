@@ -1,4 +1,5 @@
-﻿using HRDutyContract.Application.HRDutyContract.Commands;
+﻿using HRDutyContract.Application.Common.ViewModels;
+using HRDutyContract.Application.HRDutyContract.Commands;
 using HRDutyContract.Application.HRDutyContract.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +53,19 @@ namespace HRDutyContractBackend.Controllers
             return Ok(result);
         }
 
+
+        // GET: api/Users/WithoutContracts?companyId
+        [HttpGet("WithoutContracts")]
+        public async Task<IActionResult> GetEmployeesWithoutContracts([FromQuery] int? companyId)
+        {
+            var query = new GetEmployeesWithoutContractsQuery
+            {
+                CompanyId = companyId
+            };
+
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
 
 
     }
