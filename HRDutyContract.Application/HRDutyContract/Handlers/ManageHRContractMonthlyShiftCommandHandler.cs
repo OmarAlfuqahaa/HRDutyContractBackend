@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using HRDutyContract.Application.Common.Interfaces;
+﻿using HRDutyContract.Application.Common.Interfaces;
 using HRDutyContract.Application.Common.ViewModels;
 using HRDutyContract.Application.HRDutyContract.Commands;
-using HRDutyContract.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -74,6 +72,7 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                         existing.TotalShifts = item.Shift.TotalShifts;
                         existing.Note = item.Shift.Note;
                         existing.IsActive = item.Shift.IsActive;
+                        existing.TotalHours = item.Shift.TotalHours;
 
                         await _context.SaveChangesAsync(cancellationToken);
 

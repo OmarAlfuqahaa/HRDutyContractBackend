@@ -13,6 +13,8 @@ namespace HRDutyContract.Application.Common.Interfaces
         public DbSet<HRContractMonthlyShifts> HRContractMonthlyShifts { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        DbSet<Users> Users { get; set; }
+
 
 
     }

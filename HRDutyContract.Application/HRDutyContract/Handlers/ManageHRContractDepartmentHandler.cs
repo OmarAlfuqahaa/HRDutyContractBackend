@@ -9,89 +9,102 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HRDutyContract.Application.HRDutyContract.Handlers
 {
-    public class ManageHRContractDepartmentCommandHandler
-        : IRequestHandler<ManageHRContractDepartmentCommand, AbstractViewModel>
+    public class ManageHRContractDepartmentsCommandHandler
+        : IRequestHandler<ManageHRContractDepartmentsCommand, AbstractViewModel>
     {
         private readonly IHRContext _context;
         private readonly IMapper _mapper;
 
-        public ManageHRContractDepartmentCommandHandler(
-            IHRContext context,
-            IMapper mapper)
+        public ManageHRContractDepartmentsCommandHandler(IHRContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
         public async Task<AbstractViewModel> Handle(
-    ManageHRContractDepartmentCommand request,
-    CancellationToken cancellationToken)
+            ManageHRContractDepartmentsCommand request,
+            CancellationToken cancellationToken)
         {
-            var result = new AbstractViewModel();
+            var response = new AbstractViewModel();
+            response.lstResult = new List<AbstractViewModel>();
 
-            if (request.Department.DepartmentID == 0)
-                request.Department.DepartmentID = null;
-
-            if (request.IsDelete)
+            foreach (var item in request.Departments)
             {
-                var entity = await _context.HRContractDepartments
-                    .FirstOrDefaultAsync(x =>
-                        x.DetailsID == request.Department.DetailsID &&
-                        x.ContractID == request.Department.ContractID &&
-                        x.CompanyID == request.Department.CompanyID,
-                        cancellationToken);
+                var singleResult = new AbstractViewModel();
 
-                if (entity == null)
+                try
                 {
-                    result.lstError.Add("Record not found");
-                    return result;
+                    if (item.Department == null)
+                    {
+                        singleResult.lstError.Add("Department object cannot be null.");
+                        response.lstResult.Add(singleResult);
+                        continue;
+                    }
+
+                    if (item.Department.DepartmentID == 0)
+                        item.Department.DepartmentID = null;
+
+                    var existing = await _context.HRContractDepartments
+                        .FirstOrDefaultAsync(x =>
+                            x.DetailsID == item.Department.DetailsID &&
+                            x.ContractID == item.Department.ContractID &&
+                            x.CompanyID == item.Department.CompanyID,
+                            cancellationToken);
+
+                    // DELETE
+                    if (item.IsDelete)
+                    {
+                        if (existing == null)
+                        {
+                            singleResult.lstError.Add("Record not found for deletion.");
+                        }
+                        else
+                        {
+                            existing.RecordDeleted = true;
+                            existing.IsActive = false;
+                            await _context.SaveChangesAsync(cancellationToken);
+
+                            singleResult.status = true;
+                            singleResult.EntityId = existing.DetailsID;
+                        }
+
+                        response.lstResult.Add(singleResult);
+                        continue;
+                    }
+
+                    // UPDATE
+                    if (existing != null)
+                    {
+                        _mapper.Map(item.Department, existing);
+                        await _context.SaveChangesAsync(cancellationToken);
+
+                        singleResult.status = true;
+                        singleResult.EntityId = existing.DetailsID;
+                    }
+                    // CREATE
+                    else
+                    {
+                        item.Department.RecordDeleted = false;
+                        item.Department.RecordDateEntry = DateTime.Now;
+                        item.Department.IsActive ??= true;
+
+                        await _context.HRContractDepartments.AddAsync(item.Department, cancellationToken);
+                        await _context.SaveChangesAsync(cancellationToken);
+
+                        singleResult.status = true;
+                        singleResult.EntityId = item.Department.DetailsID;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    singleResult.lstError.Add(ex.Message);
                 }
 
-                entity.RecordDeleted = true;
-                entity.IsActive = false;
-
-                await _context.SaveChangesAsync(cancellationToken);
-
-                result.status = true;
-                result.EntityId = entity.DetailsID;
-                return result;
+                response.lstResult.Add(singleResult);
             }
 
-            if (request.Department.DetailsID == 0)
-            {
-                var entity = _mapper.Map<HRContractDepartment>(request.Department);
-                entity.RecordDateEntry = DateTime.Now;
-                entity.RecordDeleted = false;
-                entity.IsActive ??= true;
-
-                await _context.HRContractDepartments.AddAsync(entity, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken);
-
-                result.status = true;
-                result.EntityId = entity.DetailsID;
-                return result;
-            }
-
-            var existing = await _context.HRContractDepartments
-                .FirstOrDefaultAsync(x =>
-                    x.DetailsID == request.Department.DetailsID &&
-                    x.ContractID == request.Department.ContractID &&
-                    x.CompanyID == request.Department.CompanyID,
-                    cancellationToken);
-
-            if (existing == null)
-            {
-                result.lstError.Add("Record not found");
-                return result;
-            }
-
-            _mapper.Map(request.Department, existing);
-            await _context.SaveChangesAsync(cancellationToken);
-
-            result.status = true;
-            result.EntityId = existing.DetailsID;
-            return result;
+            response.status = true;
+            return response;
         }
-
     }
 }

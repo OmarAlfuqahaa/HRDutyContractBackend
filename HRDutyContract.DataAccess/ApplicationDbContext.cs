@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿  using Microsoft.EntityFrameworkCore;
 using HRDutyContract.Domain.Entities;
 using HRDutyContract.Application.Common.Interfaces;
 
@@ -12,6 +12,7 @@ namespace HRDutyContract.DataAccess
         {
         }
 
+        public DbSet<Users> Users { get; set; }   
         public DbSet<HRContract> HRContracts { get; set; }
         public DbSet<HRContractDepartment> HRContractDepartments { get; set; }
         public DbSet<HRContractDutySchedule> HRContractDutySchedules { get; set; }
@@ -33,6 +34,8 @@ namespace HRDutyContract.DataAccess
             modelBuilder.Entity<HRContractDutySchedule>().HasKey(x => new { x.DetailsID, x.ContractID, x.CompanyID });
             modelBuilder.Entity<HRContractEmployees>().HasKey(x => new { x.DetailsID, x.ContractID, x.CompanyID });
             modelBuilder.Entity<HRContractMonthlyShifts>().HasKey(x => new { x.DetailsID, x.ContractID, x.CompanyID });
+            modelBuilder.Entity<Users>().HasKey(x => new { x.UserID, x.CompanyID });
+
 
 
 

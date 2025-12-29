@@ -18,7 +18,7 @@ namespace HRDutyContractBackend.Controllers
 
         [HttpPost("Manage")]
         public async Task<IActionResult> Manage(
-            [FromBody] ManageHRContractDepartmentCommand command)
+                [FromBody] ManageHRContractDepartmentsCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -27,6 +27,7 @@ namespace HRDutyContractBackend.Controllers
 
             return Ok(result);
         }
+
 
         [HttpGet("List")]
         public async Task<IActionResult> GetDepartmentsList(
