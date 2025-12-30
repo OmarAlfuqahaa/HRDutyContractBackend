@@ -1,9 +1,9 @@
 ﻿using HRDutyContract.Application.Common.Interfaces;
+using HRDutyContract.Application.Common.ViewModels;
+using HRDutyContract.Application.HRDutyContract.Commands;
 using HRDutyContract.Domain.Entities;
 using MediatR;
-using HRDutyContract.Application.HRDutyContract.Commands;
 using Microsoft.EntityFrameworkCore;
-using HRDutyContract.Application.Common.ViewModels;
 
 
 namespace HRDutyContract.Application.HRDutyContract.Handlers

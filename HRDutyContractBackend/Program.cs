@@ -1,7 +1,7 @@
+using HRDutyContract.Application.Common.Interfaces;
+using HRDutyContract.Application.HRDutyContract.Handlers;
 using HRDutyContract.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using HRDutyContract.Application.HRDutyContract.Handlers;
-using HRDutyContract.Application.Common.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

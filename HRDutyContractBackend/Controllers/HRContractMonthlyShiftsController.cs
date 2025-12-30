@@ -1,7 +1,7 @@
-﻿using HRDutyContract.Application.HRDutyContract.Queries;
+﻿using HRDutyContract.Application.HRDutyContract.Commands;
+using HRDutyContract.Application.HRDutyContract.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using HRDutyContract.Application.HRDutyContract.Commands;
 
 
 namespace HRDutyContractBackend.Controllers
@@ -33,7 +33,7 @@ namespace HRDutyContractBackend.Controllers
         [HttpGet("List")]
         public async Task<IActionResult> GetMonthlyShiftsList(
             [FromQuery] bool? isActive,
-            [FromQuery] int? contractId,  
+            [FromQuery] int? contractId,
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 10)
         {
@@ -53,7 +53,7 @@ namespace HRDutyContractBackend.Controllers
                 });
             }
 
-            if (contractId.HasValue)  
+            if (contractId.HasValue)
             {
                 query.Filters.Add(new FilterItem
                 {

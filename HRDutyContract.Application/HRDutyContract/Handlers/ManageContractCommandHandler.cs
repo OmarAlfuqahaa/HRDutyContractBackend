@@ -1,10 +1,10 @@
-﻿using MediatR;
+﻿using AutoMapper;
 using HRDutyContract.Application.Common.Interfaces;
-using HRDutyContract.Application.Common.ViewModels;
-using HRDutyContract.Domain.Entities;
-using AutoMapper;
-using HRDutyContract.Application.HRDutyContract.Commands;
 using HRDutyContract.Application.Common.Services;
+using HRDutyContract.Application.Common.ViewModels;
+using HRDutyContract.Application.HRDutyContract.Commands;
+using HRDutyContract.Domain.Entities;
+using MediatR;
 
 namespace HRDutyContract.Application.HRDutyContract.Handlers
 {

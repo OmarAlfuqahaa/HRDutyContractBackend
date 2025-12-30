@@ -1,7 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using HRDutyContract.Application.HRDutyContract.Commands;
 using HRDutyContract.Application.HRDutyContract.Queries;
-using HRDutyContract.Application.HRDutyContract.Commands;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HRDutyContractBackend.Controllers
 {
@@ -42,7 +42,7 @@ namespace HRDutyContractBackend.Controllers
         }
 
 
-       
+
 
     }
 }

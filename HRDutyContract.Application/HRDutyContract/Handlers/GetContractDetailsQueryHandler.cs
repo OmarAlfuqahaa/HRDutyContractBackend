@@ -1,7 +1,7 @@
-﻿using HRDutyContract.Application.HRDutyContract.Queries;
-using MediatR;
-using AutoMapper;
+﻿using AutoMapper;
 using HRDutyContract.Application.Common.Interfaces;
+using HRDutyContract.Application.HRDutyContract.Queries;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace HRDutyContract.Application.HRDutyContract.Handlers

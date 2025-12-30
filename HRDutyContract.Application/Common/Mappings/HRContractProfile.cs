@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using HRDutyContract.Domain.Entities;
 using HRDutyContract.Application.HRDutyContract.Queries;
+using HRDutyContract.Domain.Entities;
 
 namespace HRDutyContract.Application.Common.Mappings
 {

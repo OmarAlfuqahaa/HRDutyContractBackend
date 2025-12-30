@@ -1,8 +1,8 @@
-﻿using HRDutyContract.DataAccess;
-using Microsoft.AspNetCore.Mvc;
-using MediatR;
+﻿using HRDutyContract.Application.HRDutyContract.Commands;
 using HRDutyContract.Application.HRDutyContract.Queries;
-using HRDutyContract.Application.HRDutyContract.Commands;
+using HRDutyContract.DataAccess;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HRDutyContractBackend.Controllers
 {

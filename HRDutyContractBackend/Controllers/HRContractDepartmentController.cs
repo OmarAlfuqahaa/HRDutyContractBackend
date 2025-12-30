@@ -47,7 +47,7 @@ namespace HRDutyContractBackend.Controllers
                 });
             }
 
-            if (contractId.HasValue)   
+            if (contractId.HasValue)
             {
                 filters.Add(new FilterItem
                 {

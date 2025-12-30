@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace HRDutyContract.Application.Common.ViewModels
+﻿namespace HRDutyContract.Application.Common.ViewModels
 {
     public class AbstractViewModel
     {
