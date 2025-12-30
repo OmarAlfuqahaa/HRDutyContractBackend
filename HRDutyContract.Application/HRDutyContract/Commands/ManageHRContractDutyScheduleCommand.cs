@@ -5,9 +5,15 @@ namespace HRDutyContract.Application.HRDutyContract.Commands
 {
     public class ManageHRContractDutyScheduleCommand : IRequest<AbstractViewModel>
     {
-        public List<HRContractDutyScheduleItem> Schedules { get; set; } = new();
+        public List<HRContractDutyScheduleWrapper> Schedules { get; set; } = new();
     }
-    
+
+    public class HRContractDutyScheduleWrapper
+    {
+        public HRContractDutyScheduleItem Schedule { get; set; }
+        public bool IsDelete { get; set; } = false;
+    }
+
     public class HRContractDutyScheduleItem
     {
         public int DetailsID { get; set; }
@@ -49,6 +55,5 @@ namespace HRDutyContract.Application.HRDutyContract.Commands
 
         public bool? RecordDeleted { get; set; }
         public DateTime? RecordDateEntry { get; set; }
-        public bool IsDelete { get; set; }
     }
 }

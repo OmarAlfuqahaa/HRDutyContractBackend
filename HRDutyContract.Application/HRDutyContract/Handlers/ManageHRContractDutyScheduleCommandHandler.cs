@@ -4,7 +4,7 @@ using MediatR;
 using HRDutyContract.Application.HRDutyContract.Commands;
 using Microsoft.EntityFrameworkCore;
 using HRDutyContract.Application.Common.ViewModels;
-using HRDutyContract.Application.Common.Services;
+
 
 namespace HRDutyContract.Application.HRDutyContract.Handlers
 {
@@ -21,15 +21,17 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
         public async Task<AbstractViewModel> Handle(ManageHRContractDutyScheduleCommand request, CancellationToken cancellationToken)
         {
             var vm = new AbstractViewModel();
-            vm.lstResult = new List<AbstractViewModel>(); 
+            vm.lstResult = new List<AbstractViewModel>();
 
-            foreach (var item in request.Schedules)
+            foreach (var wrapper in request.Schedules)
             {
+                var item = wrapper.Schedule;
                 var singleVm = new AbstractViewModel();
+
                 try
                 {
                     // DELETE
-                    if (item.IsDelete)
+                    if (wrapper.IsDelete)
                     {
                         if (item.DetailsID <= 0)
                         {
@@ -54,6 +56,7 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                                 singleVm.status = true;
                             }
                         }
+
                         vm.lstResult.Add(singleVm);
                         continue;
                     }
@@ -68,7 +71,7 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
                             ShiftTypeID = item.ShiftTypeID,
                             FromTime = item.FromTime != null ? TimeSpan.Parse(item.FromTime) : null,
                             ToTime = item.ToTime != null ? TimeSpan.Parse(item.ToTime) : null,
-                            ShiftTotalHours = item.ShiftTotalHours != null ? TimeSpan.Parse(item.ShiftTotalHours) : null,
+                            ShiftTotalHours = CalculateShiftTotalHours(item.FromTime, item.ToTime),
                             Multiplier = item.Multiplier,
                             InCall_Multiplier = item.InCall_Multiplier,
                             OnCall_Multiplier = item.OnCall_Multiplier,
@@ -113,15 +116,18 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
 
                     existingUpdate.ContractID = item.ContractID != 0 ? item.ContractID : existingUpdate.ContractID;
                     existingUpdate.CompanyID = item.CompanyID != 0 ? item.CompanyID : existingUpdate.CompanyID;
-                    existingUpdate.ShiftTypeID = item.ShiftTypeID ?? existingUpdate.ShiftTypeID;
                     if (item.FromTime != null)
                         existingUpdate.FromTime = TimeSpan.Parse(item.FromTime);
 
                     if (item.ToTime != null)
                         existingUpdate.ToTime = TimeSpan.Parse(item.ToTime);
 
-                    if (item.ShiftTotalHours != null)
-                        existingUpdate.ShiftTotalHours = TimeSpan.Parse(item.ShiftTotalHours);
+                    existingUpdate.ShiftTotalHours =
+                        CalculateShiftTotalHours(
+                            existingUpdate.FromTime?.ToString(),
+                            existingUpdate.ToTime?.ToString()
+                        );
+
 
                     existingUpdate.Multiplier = item.Multiplier ?? existingUpdate.Multiplier;
                     existingUpdate.InCall_Multiplier = item.InCall_Multiplier ?? existingUpdate.InCall_Multiplier;
@@ -158,5 +164,20 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
             vm.status = true;
             return vm;
         }
+
+        private TimeSpan? CalculateShiftTotalHours(string? fromTime, string? toTime)
+        {
+            if (string.IsNullOrWhiteSpace(fromTime) || string.IsNullOrWhiteSpace(toTime))
+                return null;
+
+            var from = TimeSpan.Parse(fromTime);
+            var to = TimeSpan.Parse(toTime);
+
+            if (to < from)
+                to = to.Add(TimeSpan.FromHours(24));
+
+            return to - from;
+        }
+
     }
 }

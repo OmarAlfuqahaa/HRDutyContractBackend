@@ -56,16 +56,20 @@ namespace HRDutyContractBackend.Controllers
 
         // GET: api/Users/WithoutContracts?companyId
         [HttpGet("WithoutContracts")]
-        public async Task<IActionResult> GetEmployeesWithoutContracts([FromQuery] int? companyId)
+        public async Task<IActionResult> GetEmployeesWithoutContracts(
+                [FromQuery] int? companyId,
+                [FromQuery] string? searchTerm)
         {
             var query = new GetEmployeesWithoutContractsQuery
             {
-                CompanyId = companyId
+                CompanyId = companyId,
+                SearchTerm = searchTerm
             };
 
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+
 
 
     }
