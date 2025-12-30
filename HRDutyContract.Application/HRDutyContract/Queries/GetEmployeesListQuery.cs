@@ -4,10 +4,13 @@ namespace HRDutyContract.Application.HRDutyContract.Queries
 {
     public class GetEmployeesListQuery : IRequest<GELQ_Response>
     {
+        public bool? IsActive { get; set; }
+        public int? ContractId { get; set; }
+
         public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
-        public List<FilterItem>? Filters { get; set; }
+        public int PageSize { get; set; } = 10; // -1 = All
     }
+
 
     public class GELQ_HRContractEmployees
     {
@@ -19,12 +22,7 @@ namespace HRDutyContract.Application.HRDutyContract.Queries
         public bool? IsActive { get; set; }
 
         public string? Note { get; set; }
-        public string? RecordAddBy { get; set; }
-        public string? RecordUpdateBy { get; set; }
         public string? RecordNote { get; set; }
-
-        public bool? RecordDeleted { get; set; }
-        public DateTime? RecordDateEntry { get; set; }
 
         public int? OvertimeTypeID_NormalDuty { get; set; }
         public double? Multiplier_NormalDuty { get; set; }

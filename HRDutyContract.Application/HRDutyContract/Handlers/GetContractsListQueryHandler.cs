@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HRDutyContract.Application.HRDutyContract.Handlers
 {
-    public class GetContractsListQueryHandler : IRequestHandler<GetContractsListQuery, GCLQ_Response>
+    public class GetContractsListQueryHandler
+    : IRequestHandler<GetContractsListQuery, GCLQ_Response>
     {
         private readonly IHRContext _context;
         private readonly IMapper _mapper;
@@ -17,46 +18,52 @@ namespace HRDutyContract.Application.HRDutyContract.Handlers
             _mapper = mapper;
         }
 
-        public async Task<GCLQ_Response> Handle(GetContractsListQuery request, CancellationToken cancellationToken)
+        public async Task<GCLQ_Response> Handle(
+            GetContractsListQuery request,
+            CancellationToken cancellationToken)
         {
-            return await Execute(request, cancellationToken);
-        }
+            var query = _context.HRContracts
+                .AsNoTracking()
+                .AsQueryable();
 
-        private async Task<GCLQ_Response> Execute(GetContractsListQuery request, CancellationToken cancellationToken)
-        {
-            var response = new GCLQ_Response();
 
-            var query = _context.HRContracts.AsQueryable();
-
-            if (request.Filters != null && request.Filters.Any())
+            if (!string.IsNullOrWhiteSpace(request.SearchTerm))
             {
-                foreach (var filter in request.Filters)
-                {
-                    switch (filter.Field.ToLower())
-                    {
-                        case "contractname":
-                            query = query.Where(x => x.ContractName.Contains(filter.Value));
-                            break;
-                        case "isactive":
-                            if (bool.TryParse(filter.Value, out var isActive))
-                                query = query.Where(x => x.IsActive == isActive);
-                            break;
-                    }
-                }
+                var search = request.SearchTerm.Trim();
+
+                query = query.Where(x =>
+                    x.ContractName != null &&
+                    x.ContractName.Contains(search));
             }
 
-            query = query.OrderBy(c => c.ContractID);
+            if (request.IsActive.HasValue)
+            {
+                query = query.Where(x => x.IsActive == request.IsActive.Value);
+            }
 
-            response.RowsCount = await query.CountAsync(cancellationToken);
+            var rowsCount = await query.CountAsync(cancellationToken);
 
-            response.LstData = await _mapper.ProjectTo<GCLQ_HRContract>(
-                    query.Skip((request.PageNumber - 1) * request.PageSize)
-                         .Take(request.PageSize),
+            query = query.OrderBy(x => x.ContractID);
+
+            if (request.PageSize != -1)
+            {
+                query = query
+                    .Skip((request.PageNumber - 1) * request.PageSize)
+                    .Take(request.PageSize);
+            }
+
+            var data = await _mapper.ProjectTo<GCLQ_HRContract>(
+                    query,
                     _mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-
-            return response;
+            return new GCLQ_Response
+            {
+                LstData = data,
+                RowsCount = rowsCount
+            };
         }
+
     }
+
 }

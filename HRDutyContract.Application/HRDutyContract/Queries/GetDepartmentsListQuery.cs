@@ -4,10 +4,13 @@ namespace HRDutyContract.Application.HRDutyContract.Queries
 {
     public class GetDepartmentsListQuery : IRequest<GDLQ_Response>
     {
+        public bool? IsActive { get; set; }
+        public int? ContractId { get; set; }
+
         public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
-        public List<FilterItem>? Filters { get; set; }
+        public int PageSize { get; set; } = 10; 
     }
+
 
     public class GDLQ_HRContractDepartment
     {

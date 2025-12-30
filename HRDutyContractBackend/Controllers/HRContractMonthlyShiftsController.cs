@@ -18,7 +18,7 @@ namespace HRDutyContractBackend.Controllers
         }
 
         // POST: api/HRContractMonthlyShifts/Manage
-        [HttpPost("Manage")]
+        [HttpPost("ManageMonthlyShifts")]
         public async Task<IActionResult> ManageMonthlyShift(
                 [FromBody] ManageHRContractMonthlyShiftCommand command)
         {
@@ -30,37 +30,20 @@ namespace HRDutyContractBackend.Controllers
 
 
         // GET: api/HRContractMonthlyShifts/List
-        [HttpGet("List")]
+        [HttpGet("ListMonthlyShifts")]
         public async Task<IActionResult> GetMonthlyShiftsList(
-            [FromQuery] bool? isActive,
-            [FromQuery] int? contractId,
-            [FromQuery] int pageNumber = 1,
-            [FromQuery] int pageSize = 10)
+                [FromQuery] bool? isActive,
+                [FromQuery] int? contractId,
+                [FromQuery] int pageNumber = 1,
+                [FromQuery] int pageSize = 10)
         {
             var query = new GetMonthlyShiftsListQuery
             {
+                IsActive = isActive,
+                ContractId = contractId,
                 PageNumber = pageNumber,
-                PageSize = pageSize,
-                Filters = new List<FilterItem>()
+                PageSize = pageSize
             };
-
-            if (isActive.HasValue)
-            {
-                query.Filters.Add(new FilterItem
-                {
-                    Field = "IsActive",
-                    Value = isActive.Value.ToString()
-                });
-            }
-
-            if (contractId.HasValue)
-            {
-                query.Filters.Add(new FilterItem
-                {
-                    Field = "ContractID",
-                    Value = contractId.Value.ToString()
-                });
-            }
 
             var result = await _mediator.Send(query);
             return Ok(result);

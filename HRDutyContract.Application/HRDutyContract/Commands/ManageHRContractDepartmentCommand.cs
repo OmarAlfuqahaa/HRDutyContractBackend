@@ -15,4 +15,4 @@ namespace HRDutyContract.Application.HRDutyContract.Commands
         public HRContractDepartment Department { get; set; }
         public bool IsDelete { get; set; } = false;
     }
-}
+} 

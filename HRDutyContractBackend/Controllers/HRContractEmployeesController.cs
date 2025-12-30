@@ -16,7 +16,7 @@ namespace HRDutyContractBackend.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("Manage")]
+        [HttpPost("ManageEmployees")]
         public async Task<IActionResult> Manage([FromBody] ManageHRContractEmployeesCommand command)
         {
             var result = await _mediator.Send(command);
@@ -26,26 +26,19 @@ namespace HRDutyContractBackend.Controllers
 
 
 
-        [HttpGet("List")]
+        [HttpGet("ListEmployees")]
         public async Task<IActionResult> GetEmployeesList(
                 [FromQuery] bool? isActive,
                 [FromQuery] int? contractId,
                 [FromQuery] int pageNumber = 1,
                 [FromQuery] int pageSize = 10)
         {
-            var filters = new List<FilterItem>();
-
-            if (isActive.HasValue)
-                filters.Add(new FilterItem { Field = "IsActive", Value = isActive.Value.ToString() });
-
-            if (contractId.HasValue)
-                filters.Add(new FilterItem { Field = "ContractID", Value = contractId.Value.ToString() });
-
             var query = new GetEmployeesListQuery
             {
+                IsActive = isActive,
+                ContractId = contractId,
                 PageNumber = pageNumber,
-                PageSize = pageSize,
-                Filters = filters
+                PageSize = pageSize
             };
 
             var result = await _mediator.Send(query);
@@ -53,8 +46,9 @@ namespace HRDutyContractBackend.Controllers
         }
 
 
+
         // GET: api/Users/WithoutContracts?companyId
-        [HttpGet("WithoutContracts")]
+        [HttpGet("WithoutContractsEmployees")]
         public async Task<IActionResult> GetEmployeesWithoutContracts(
                 [FromQuery] int? companyId,
                 [FromQuery] string? searchTerm)

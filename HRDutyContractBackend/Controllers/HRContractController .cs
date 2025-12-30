@@ -20,7 +20,7 @@ namespace HRDutyContractBackend.Controllers
         }
 
         // POST: api/HRContract/Manage
-        [HttpPost("Manage")]
+        [HttpPost("ManageContract")]
         public async Task<IActionResult> ManageContract([FromBody] ManageContractCommand command)
         {
             if (command == null || command.Contract == null)
@@ -35,48 +35,29 @@ namespace HRDutyContractBackend.Controllers
         }
 
         // GET: api/HRContract/GET CONTRACTS LIST
-        [HttpGet("List")]
+        [HttpGet("ListContract")]
         public async Task<IActionResult> GetContractsList(
                 [FromQuery] string? searchTerm,
                 [FromQuery] bool? isActive,
                 [FromQuery] int pageNumber = 1,
                 [FromQuery] int pageSize = 10)
         {
-            var filters = new List<FilterItem>();
-
-            if (!string.IsNullOrEmpty(searchTerm))
-            {
-                filters.Add(new FilterItem
-                {
-                    Field = "ContractName",
-                    Value = searchTerm
-                });
-            }
-
-            if (isActive.HasValue)
-            {
-                filters.Add(new FilterItem
-                {
-                    Field = "IsActive",
-                    Value = isActive.Value.ToString()
-                });
-            }
-
             var query = new GetContractsListQuery
             {
+                SearchTerm = searchTerm,
+                IsActive = isActive,
                 PageNumber = pageNumber,
-                PageSize = pageSize,
-                Filters = filters
+                PageSize = pageSize
             };
 
-            var list = await _mediator.Send(query);
-            return Ok(list);
+            return Ok(await _mediator.Send(query));
         }
 
 
 
+
         // GET: api/HRContract/Details/
-        [HttpGet("Details")]
+        [HttpGet("DetailsContract")]
         public async Task<IActionResult> GetContractDetails([FromQuery] GetContractDetailsByIdQuery Query)
         {
             var contract = await _mediator.Send(Query);

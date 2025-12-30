@@ -16,7 +16,7 @@ namespace HRDutyContractBackend.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("Manage")]
+        [HttpPost("ManageDepartment")]
         public async Task<IActionResult> Manage(
                 [FromBody] ManageHRContractDepartmentsCommand command)
         {
@@ -29,42 +29,23 @@ namespace HRDutyContractBackend.Controllers
         }
 
 
-        [HttpGet("List")]
+        [HttpGet("ListDepartment")]
         public async Task<IActionResult> GetDepartmentsList(
-             [FromQuery] bool? isActive,
-             [FromQuery] int? contractId,
-             [FromQuery] int pageNumber = 1,
-             [FromQuery] int pageSize = 10)
+            [FromQuery] bool? isActive,
+            [FromQuery] int? contractId,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
-            var filters = new List<FilterItem>();
-
-            if (isActive.HasValue)
-            {
-                filters.Add(new FilterItem
-                {
-                    Field = "IsActive",
-                    Value = isActive.Value.ToString()
-                });
-            }
-
-            if (contractId.HasValue)
-            {
-                filters.Add(new FilterItem
-                {
-                    Field = "ContractID",
-                    Value = contractId.Value.ToString()
-                });
-            }
-
             var query = new GetDepartmentsListQuery
             {
+                IsActive = isActive,
+                ContractId = contractId,
                 PageNumber = pageNumber,
-                PageSize = pageSize,
-                Filters = filters
+                PageSize = pageSize
             };
 
-            var list = await _mediator.Send(query);
-            return Ok(list);
+            return Ok(await _mediator.Send(query));
         }
+
     }
 }

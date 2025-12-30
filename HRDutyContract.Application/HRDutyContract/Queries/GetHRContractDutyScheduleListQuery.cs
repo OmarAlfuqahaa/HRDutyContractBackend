@@ -46,12 +46,8 @@ namespace HRDutyContract.Application.HRDutyContract.Queries
         public bool? IsActive { get; set; }
 
         public string? Note { get; set; }
-        public string? RecordAddBy { get; set; }
-        public string? RecordUpdateBy { get; set; }
         public string? RecordNote { get; set; }
 
-        public bool? RecordDeleted { get; set; }
-        public DateTime? RecordDateEntry { get; set; }
     }
 
     public class HRCDS_ListResponse

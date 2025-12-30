@@ -4,10 +4,13 @@ namespace HRDutyContract.Application.HRDutyContract.Queries
 {
     public class GetMonthlyShiftsListQuery : IRequest<GMLQ_Response>
     {
+        public bool? IsActive { get; set; }
+        public int? ContractId { get; set; }
+
         public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
-        public List<FilterItem>? Filters { get; set; }
+        public int PageSize { get; set; } = 10; // -1 = All
     }
+
 
     public class GMLQ_HRContractMonthlyShift
     {

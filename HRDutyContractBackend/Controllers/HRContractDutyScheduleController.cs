@@ -13,7 +13,7 @@ namespace HRDutyContractBackend.Controllers
         public HRContractDutyScheduleController(IMediator mediator) => _mediator = mediator;
 
 
-        [HttpPost("Manage")]
+        [HttpPost("ManageDutySchedule")]
         public async Task<IActionResult> Manage(
            [FromBody] ManageHRContractDutyScheduleCommand command)
         {
@@ -22,7 +22,7 @@ namespace HRDutyContractBackend.Controllers
         }
 
 
-        [HttpGet("List")]
+        [HttpGet("ListDutySchedule")]
         public async Task<IActionResult> GetList(
             [FromQuery] int? contractId,
             [FromQuery] bool? isActive,
